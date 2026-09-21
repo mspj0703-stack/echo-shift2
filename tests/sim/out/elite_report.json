@@ -1,0 +1,208 @@
+{
+ "N": 300,
+ "window": 25,
+ "results": {
+  "lock:ignore": {
+   "n": 300,
+   "invalid": 0,
+   "killRate": 0.9,
+   "timeAll": 6.2195,
+   "timeKill": 4.132777777777778,
+   "taken": 1.49,
+   "dmgP": 3.736175000000002,
+   "dmgE": 0.13399166666666668,
+   "breaks": 0.15666666666666668,
+   "bursts": 0,
+   "firstBurst": null,
+   "guardBrokenRate": 0,
+   "diedGuardedRate": 0.9,
+   "burstKills": 0,
+   "burstHits": 0,
+   "assists": 0,
+   "deathRate": 0.1,
+   "byType": {
+    "chaser": {
+     "n": 150,
+     "timeAll": 7.0391111111111115,
+     "killRate": 0.8333333333333334
+    },
+    "shooter": {
+     "n": 150,
+     "timeAll": 5.399888888888889,
+     "killRate": 0.9666666666666667
+    }
+   }
+  },
+  "lock:timing": {
+   "n": 300,
+   "invalid": 0,
+   "killRate": 0.91,
+   "timeAll": 5.700555555555556,
+   "timeKill": 3.791819291819292,
+   "taken": 1.44,
+   "dmgP": 3.760216666666667,
+   "dmgE": 0.11661666666666666,
+   "breaks": 0.13333333333333333,
+   "bursts": 0,
+   "firstBurst": null,
+   "guardBrokenRate": 0,
+   "diedGuardedRate": 0.91,
+   "burstKills": 0,
+   "burstHits": 0,
+   "assists": 0,
+   "deathRate": 0.09,
+   "byType": {
+    "chaser": {
+     "n": 150,
+     "timeAll": 6.681222222222222,
+     "killRate": 0.8466666666666667
+    },
+    "shooter": {
+     "n": 150,
+     "timeAll": 4.719888888888889,
+     "killRate": 0.9733333333333334
+    }
+   }
+  },
+  "lock:smart": {
+   "n": 300,
+   "invalid": 0,
+   "killRate": 0.9433333333333334,
+   "timeAll": 5.357555555555555,
+   "timeKill": 4.177620730270907,
+   "taken": 1.25,
+   "dmgP": 3.4347499999999975,
+   "dmgE": 0.43381666666666663,
+   "breaks": 0.47,
+   "bursts": 0,
+   "firstBurst": null,
+   "guardBrokenRate": 0,
+   "diedGuardedRate": 0.9433333333333334,
+   "burstKills": 0,
+   "burstHits": 0,
+   "assists": 0,
+   "deathRate": 0.056666666666666664,
+   "byType": {
+    "chaser": {
+     "n": 150,
+     "timeAll": 5.995222222222222,
+     "killRate": 0.9133333333333333
+    },
+    "shooter": {
+     "n": 150,
+     "timeAll": 4.719888888888889,
+     "killRate": 0.9733333333333334
+    }
+   }
+  },
+  "relay:ignore": {
+   "n": 300,
+   "invalid": 198,
+   "killRate": 0.6533333333333333,
+   "timeAll": 10.311,
+   "timeKill": 2.5168367346938774,
+   "taken": 0.89,
+   "dmgP": 3.0719666666666665,
+   "dmgE": 0.14616666666666672,
+   "breaks": 0,
+   "bursts": 0.07666666666666666,
+   "firstBurst": 1.347826086956522,
+   "guardBrokenRate": 0.07666666666666666,
+   "diedGuardedRate": 0.5766666666666667,
+   "burstKills": 0.043333333333333335,
+   "burstHits": 0.043333333333333335,
+   "assists": 0,
+   "deathRate": 0.3466666666666667,
+   "byType": {
+    "chaser": {
+     "n": 146,
+     "timeAll": 10.567351598173515,
+     "killRate": 0.6301369863013698
+    },
+    "shooter": {
+     "n": 154,
+     "timeAll": 10.067965367965368,
+     "killRate": 0.6753246753246753
+    }
+   }
+  },
+  "relay:timing": {
+   "n": 300,
+   "invalid": 198,
+   "killRate": 0.56,
+   "timeAll": 12.487722222222223,
+   "timeKill": 2.6566468253968254,
+   "taken": 1.0833333333333333,
+   "dmgP": 2.8169333333333344,
+   "dmgE": 0.15473333333333336,
+   "breaks": 0,
+   "bursts": 0.08333333333333333,
+   "firstBurst": 1.39,
+   "guardBrokenRate": 0.08333333333333333,
+   "diedGuardedRate": 0.49,
+   "burstKills": 0.06333333333333334,
+   "burstHits": 0.06333333333333334,
+   "assists": 0,
+   "deathRate": 0.44,
+   "byType": {
+    "chaser": {
+     "n": 146,
+     "timeAll": 15.738127853881279,
+     "killRate": 0.410958904109589
+    },
+    "shooter": {
+     "n": 154,
+     "timeAll": 9.40616883116883,
+     "killRate": 0.7012987012987013
+    }
+   }
+  },
+  "relay:smart": {
+   "n": 300,
+   "invalid": 198,
+   "killRate": 0.6266666666666667,
+   "timeAll": 11.084333333333332,
+   "timeKill": 2.7941489361702128,
+   "taken": 0.94,
+   "dmgP": 2.367266666666667,
+   "dmgE": 0.7047666666666662,
+   "breaks": 0,
+   "bursts": 0.29333333333333333,
+   "firstBurst": 2.4115530303030295,
+   "guardBrokenRate": 0.29333333333333333,
+   "diedGuardedRate": 0.36666666666666664,
+   "burstKills": 0.19666666666666666,
+   "burstHits": 0.2,
+   "assists": 0,
+   "deathRate": 0.37333333333333335,
+   "byType": {
+    "chaser": {
+     "n": 146,
+     "timeAll": 12.85445205479452,
+     "killRate": 0.547945205479452
+    },
+    "shooter": {
+     "n": 154,
+     "timeAll": 9.40616883116883,
+     "killRate": 0.7012987012987013
+    }
+   }
+  }
+ },
+ "verdict": {
+  "lock": false,
+  "relayBursts": true,
+  "relayKills": true,
+  "relayNotSlower": false,
+  "relay": false,
+  "lockGain": 0.13858741770953376,
+  "burstX": 3.8260869565217392,
+  "contrib": 0.19666666666666666,
+  "timeSmart": 11.084333333333332,
+  "timeIgnore": 10.311,
+  "guardBrokenRate": 0.29333333333333333,
+  "guardBrokenRateIgnore": 0.07666666666666666,
+  "diedGuarded": 0.36666666666666664,
+  "firstBurst": 2.4115530303030295
+ }
+}

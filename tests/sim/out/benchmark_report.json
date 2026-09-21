@@ -1,0 +1,988 @@
+{
+ "runs": 100,
+ "thresholds": {
+  "dps": 0.3,
+  "kills": 0.3,
+  "bossTime": 0.2,
+  "survival": 0.2
+ },
+ "elapsed": 523.438,
+ "results": {
+  "BASE": {
+   "spec": {
+    "key": "BASE",
+    "id": null,
+    "n": 0,
+    "build": {}
+   },
+   "survival": 0,
+   "surviveTime": 55.395166666666675,
+   "kills": 31.88,
+   "dps": 1.1633609232247875,
+   "echoShareSurvive": 0.24235863256401685,
+   "level": 5.69,
+   "bossClear": 1,
+   "bossTime": 35.93766666666668,
+   "bossTimeAll": 35.93766666666668,
+   "bossTaken": 1.32,
+   "bossDps": 5.057319818980724,
+   "echoShareBoss": 0.6067222222222223,
+   "bossBreaks": 5.2,
+   "wins": 100,
+   "runs": 100
+  },
+  "sharp@1": {
+   "spec": {
+    "key": "sharp@1",
+    "id": "sharp",
+    "n": 1,
+    "build": {
+     "sharp": 1
+    }
+   },
+   "survival": 0,
+   "surviveTime": 55.40916666666667,
+   "kills": 31.91,
+   "dps": 1.1673933583283815,
+   "echoShareSurvive": 0.2418819041046073,
+   "level": 5.7,
+   "bossClear": 1,
+   "bossTime": 30.461,
+   "bossTimeAll": 30.461,
+   "bossTaken": 1.25,
+   "bossDps": 5.964628246512477,
+   "echoShareBoss": 0.6023199999999997,
+   "bossBreaks": 4.33,
+   "wins": 100,
+   "runs": 100,
+   "gain": {
+    "dps": 0.0034661943882525748,
+    "kills": 0.0009410288582183401,
+    "bossDps": 0.17940499315991776,
+    "survival": 0,
+    "bossTime": 0.1523934961461052,
+    "bossTimeAll": 0.1523934961461052,
+    "clear": 0
+   },
+   "diffVsOthers": {
+    "dps": -0.005924805862202832,
+    "kills": -0.02819949811794229,
+    "bossTime": 0.06166836105201623,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": []
+  },
+  "sharp@max": {
+   "spec": {
+    "key": "sharp@max",
+    "id": "sharp",
+    "n": 4,
+    "build": {
+     "sharp": 4
+    }
+   },
+   "survival": 0,
+   "surviveTime": 56.79583333333334,
+   "kills": 33.06,
+   "dps": 1.1920981100544208,
+   "echoShareSurvive": 0.24861103600603848,
+   "level": 5.85,
+   "bossClear": 1,
+   "bossTime": 24.15216666666666,
+   "bossTimeAll": 24.15216666666666,
+   "bossTaken": 1.19,
+   "bossDps": 7.510958445698345,
+   "echoShareBoss": 0.5521733333333332,
+   "bossBreaks": 3.42,
+   "wins": 100,
+   "runs": 100,
+   "gain": {
+    "dps": 0.024701867026765134,
+    "kills": 0.037013801756587306,
+    "bossDps": 0.48516580215252025,
+    "survival": 0,
+    "bossTime": 0.32794282693181753,
+    "bossTimeAll": 0.32794282693181753,
+    "clear": 0
+   },
+   "diffVsOthers": {
+    "dps": 0.0041632227920081685,
+    "kills": -0.01631116687578417,
+    "bossTime": 0.13821600472196555,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": [
+    "보스 클리어 시간 -33%"
+   ]
+  },
+  "rapid@1": {
+   "spec": {
+    "key": "rapid@1",
+    "id": "rapid",
+    "n": 1,
+    "build": {
+     "rapid": 1
+    }
+   },
+   "survival": 0,
+   "surviveTime": 56.8415,
+   "kills": 32.99,
+   "dps": 1.1737372068179917,
+   "echoShareSurvive": 0.2522694333101208,
+   "level": 5.8,
+   "bossClear": 1,
+   "bossTime": 30.50916666666667,
+   "bossTimeAll": 30.50916666666667,
+   "bossTaken": 0.4,
+   "bossDps": 5.960474723611984,
+   "echoShareBoss": 0.6258777777777776,
+   "bossBreaks": 4.33,
+   "wins": 100,
+   "runs": 100,
+   "gain": {
+    "dps": 0.008919229953539665,
+    "kills": 0.03481806775407792,
+    "bossDps": 0.17858370381117927,
+    "survival": 0,
+    "bossTime": 0.15105321250684078,
+    "bossTimeAll": 0.15105321250684078,
+    "clear": 0
+   },
+   "diffVsOthers": {
+    "dps": 0.00007353325961296717,
+    "kills": 0.009065244667503247,
+    "bossTime": 0.060194049048825374,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": []
+  },
+  "rapid@max": {
+   "spec": {
+    "key": "rapid@max",
+    "id": "rapid",
+    "n": 5,
+    "build": {
+     "rapid": 5
+    }
+   },
+   "survival": 0,
+   "surviveTime": 59.674000000000014,
+   "kills": 35.59,
+   "dps": 1.2017549657395652,
+   "echoShareSurvive": 0.22955417777087836,
+   "level": 5.99,
+   "bossClear": 1,
+   "bossTime": 24.114666666666675,
+   "bossTimeAll": 24.114666666666675,
+   "bossTaken": 1.34,
+   "bossDps": 7.517185306901674,
+   "echoShareBoss": 0.5609555555555559,
+   "bossBreaks": 3.41,
+   "wins": 100,
+   "runs": 100,
+   "gain": {
+    "dps": 0.033002692241330456,
+    "kills": 0.11637390213299881,
+    "bossDps": 0.4863970593057576,
+    "survival": 0,
+    "bossTime": 0.3289863003533896,
+    "bossTimeAll": 0.3289863003533896,
+    "clear": 0
+   },
+   "diffVsOthers": {
+    "dps": 0.013294130528030024,
+    "kills": 0.07098494353826848,
+    "bossTime": 0.1393638254856948,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": [
+    "보스 클리어 시간 -33%"
+   ]
+  },
+  "reach@1": {
+   "spec": {
+    "key": "reach@1",
+    "id": "reach",
+    "n": 1,
+    "build": {
+     "reach": 1
+    }
+   },
+   "survival": 0,
+   "surviveTime": 58.313,
+   "kills": 34.18,
+   "dps": 1.186766351549885,
+   "echoShareSurvive": 0.2395278008193981,
+   "level": 5.89,
+   "bossClear": 1,
+   "bossTime": 33.963833333333355,
+   "bossTimeAll": 33.963833333333355,
+   "bossTaken": 1.37,
+   "bossDps": 5.338793760536935,
+   "echoShareBoss": 0.6267333333333334,
+   "bossBreaks": 4.93,
+   "wins": 100,
+   "runs": 100,
+   "gain": {
+    "dps": 0.020118802220224774,
+    "kills": 0.07214554579673771,
+    "bossDps": 0.0556567414423359,
+    "survival": 0,
+    "bossTime": 0.054923803251926695,
+    "bossTimeAll": 0.054923803251926695,
+    "clear": 0
+   },
+   "diffVsOthers": {
+    "dps": 0.012393062752966588,
+    "kills": 0.05012547051442902,
+    "bossTime": -0.04554830113158012,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": []
+  },
+  "reach@max": {
+   "spec": {
+    "key": "reach@max",
+    "id": "reach",
+    "n": 4,
+    "build": {
+     "reach": 4
+    }
+   },
+   "survival": 0,
+   "surviveTime": 59.8555,
+   "kills": 35.89,
+   "dps": 1.2085985485952864,
+   "echoShareSurvive": 0.23912135247013785,
+   "level": 6,
+   "bossClear": 1,
+   "bossTime": 30.00533333333333,
+   "bossTimeAll": 30.00533333333333,
+   "bossTaken": 1.28,
+   "bossDps": 6.038289237547669,
+   "echoShareBoss": 0.6669222222222224,
+   "bossBreaks": 4.35,
+   "wins": 100,
+   "runs": 100,
+   "gain": {
+    "dps": 0.03888528870739627,
+    "kills": 0.125784190715182,
+    "bossDps": 0.1939702161775987,
+    "survival": 0,
+    "bossTime": 0.1650728576331244,
+    "bossTimeAll": 0.1650728576331244,
+    "clear": 0
+   },
+   "diffVsOthers": {
+    "dps": 0.01976498664070242,
+    "kills": 0.08133626097866999,
+    "bossTime": -0.04094096150659693,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": []
+  },
+  "deep@1": {
+   "spec": {
+    "key": "deep@1",
+    "id": "deep",
+    "n": 1,
+    "build": {
+     "deep": 1
+    }
+   },
+   "survival": 0,
+   "surviveTime": 55.73533333333336,
+   "kills": 32.24,
+   "dps": 1.173478776850524,
+   "echoShareSurvive": 0.26007992915693984,
+   "level": 5.71,
+   "bossClear": 1,
+   "bossTime": 31.999500000000012,
+   "bossTimeAll": 31.999500000000012,
+   "bossTaken": 1.32,
+   "bossDps": 5.695485653135559,
+   "echoShareBoss": 0.6452888888888892,
+   "bossBreaks": 4.57,
+   "wins": 100,
+   "runs": 100,
+   "gain": {
+    "dps": 0.008697089118044454,
+    "kills": 0.01129234629861986,
+    "bossDps": 0.12618656857723787,
+    "survival": 0,
+    "bossTime": 0.1095832599037222,
+    "bossTimeAll": 0.1095832599037222,
+    "clear": 0
+   },
+   "diffVsOthers": {
+    "dps": -0.00017082165943176422,
+    "kills": -0.016813048933500618,
+    "bossTime": 0.01457710118539493,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": []
+  },
+  "deep@max": {
+   "spec": {
+    "key": "deep@max",
+    "id": "deep",
+    "n": 2,
+    "build": {
+     "deep": 2
+    }
+   },
+   "survival": 0,
+   "surviveTime": 58.0285,
+   "kills": 34.34,
+   "dps": 1.2008620799632717,
+   "echoShareSurvive": 0.32374858212821217,
+   "level": 5.86,
+   "bossClear": 1,
+   "bossTime": 30.9545,
+   "bossTimeAll": 30.9545,
+   "bossTaken": 1.32,
+   "bossDps": 5.890061187265213,
+   "echoShareBoss": 0.6562000000000002,
+   "bossBreaks": 4.44,
+   "wins": 100,
+   "runs": 100,
+   "gain": {
+    "dps": 0.0322351868537345,
+    "kills": 0.07716436637390234,
+    "bossDps": 0.1646606103808408,
+    "survival": 0,
+    "bossTime": 0.13866138591821053,
+    "bossTimeAll": 0.13866138591821053,
+    "clear": 0
+   },
+   "diffVsOthers": {
+    "dps": 0.01244987460167447,
+    "kills": 0.027854454203262366,
+    "bossTime": -0.06999358039300219,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": []
+  },
+  "power@1": {
+   "spec": {
+    "key": "power@1",
+    "id": "power",
+    "n": 1,
+    "build": {
+     "power": 1
+    }
+   },
+   "survival": 0,
+   "surviveTime": 55.39216666666667,
+   "kills": 31.89,
+   "dps": 1.1650115182281986,
+   "echoShareSurvive": 0.25971501883129805,
+   "level": 5.69,
+   "bossClear": 1,
+   "bossTime": 31.19516666666667,
+   "bossTimeAll": 31.19516666666667,
+   "bossTaken": 1.27,
+   "bossDps": 5.833855899304674,
+   "echoShareBoss": 0.6565805555555555,
+   "bossBreaks": 4.42,
+   "wins": 100,
+   "runs": 100,
+   "gain": {
+    "dps": 0.001418815924155048,
+    "kills": 0.0003136762860729281,
+    "bossDps": 0.15354695928256668,
+    "survival": 0,
+    "bossTime": 0.13196460538154053,
+    "bossTimeAll": 0.13196460538154053,
+    "clear": 0
+   },
+   "diffVsOthers": {
+    "dps": -0.00817692217271011,
+    "kills": -0.028889585947302242,
+    "bossTime": 0.03919658121099509,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": []
+  },
+  "power@max": {
+   "spec": {
+    "key": "power@max",
+    "id": "power",
+    "n": 6,
+    "build": {
+     "power": 6
+    }
+   },
+   "survival": 0,
+   "surviveTime": 57.04433333333333,
+   "kills": 33.71,
+   "dps": 1.1960617804101563,
+   "echoShareSurvive": 0.3024472794242612,
+   "level": 5.83,
+   "bossClear": 1,
+   "bossTime": 23.29416666666668,
+   "bossTimeAll": 23.29416666666668,
+   "bossTaken": 1.15,
+   "bossDps": 7.797922845687451,
+   "echoShareBoss": 0.7540944444444445,
+   "bossBreaks": 3.25,
+   "wins": 100,
+   "runs": 100,
+   "gain": {
+    "dps": 0.028108952718407743,
+    "kills": 0.05740276035131742,
+    "bossDps": 0.5419081894763542,
+    "survival": 0,
+    "bossTime": 0.35181749881739666,
+    "bossTimeAll": 0.35181749881739666,
+    "clear": 0
+   },
+   "diffVsOthers": {
+    "dps": 0.00791101705281504,
+    "kills": 0.006116687578418954,
+    "bossTime": 0.16447814379610254,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": [
+    "보스 클리어 시간 -35%"
+   ]
+  },
+  "resonance@1": {
+   "spec": {
+    "key": "resonance@1",
+    "id": "resonance",
+    "n": 1,
+    "build": {
+     "resonance": 1
+    }
+   },
+   "survival": 0,
+   "surviveTime": 55.344166666666666,
+   "kills": 31.76,
+   "dps": 1.160980477238752,
+   "echoShareSurvive": 0.24230723240268445,
+   "level": 5.69,
+   "bossClear": 0.99,
+   "bossTime": 30.483670033670037,
+   "bossTimeAll": 30.493500000000004,
+   "bossTaken": 1.37,
+   "bossDps": 5.919605248895852,
+   "echoShareBoss": 0.6009625766871171,
+   "bossBreaks": 4.32,
+   "wins": 99,
+   "runs": 100,
+   "gain": {
+    "dps": -0.0020461801135944757,
+    "kills": -0.0037641154328732496,
+    "bossDps": 0.17050245204562087,
+    "survival": 0,
+    "bossTime": 0.15176268074341615,
+    "bossTimeAll": 0.15148915251407546,
+    "clear": -0.010000000000000009
+   },
+   "diffVsOthers": {
+    "dps": -0.011988417814234587,
+    "kills": -0.03337515683814304,
+    "bossTime": 0.06097446410905827,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": []
+  },
+  "resonance@max": {
+   "spec": {
+    "key": "resonance@max",
+    "id": "resonance",
+    "n": 3,
+    "build": {
+     "resonance": 3
+    }
+   },
+   "survival": 0,
+   "surviveTime": 56.59666666666668,
+   "kills": 32.85,
+   "dps": 1.1757300203915184,
+   "echoShareSurvive": 0.25435223386586875,
+   "level": 5.82,
+   "bossClear": 0.99,
+   "bossTime": 28.635185185185193,
+   "bossTimeAll": 28.66350000000001,
+   "bossTaken": 1.29,
+   "bossDps": 6.297869745704734,
+   "echoShareBoss": 0.5688277480689243,
+   "bossBreaks": 4.08,
+   "wins": 99,
+   "runs": 100,
+   "gain": {
+    "dps": 0.010632209591881825,
+    "kills": 0.030426599749059147,
+    "bossDps": 0.2452978991101331,
+    "survival": 0,
+    "bossTime": 0.20319854233204204,
+    "bossTimeAll": 0.20241065548681514,
+    "clear": -0.010000000000000009
+   },
+   "diffVsOthers": {
+    "dps": -0.01131340038636347,
+    "kills": -0.02355708908406514,
+    "bossTime": 0.0009972916622124905,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": []
+  },
+  "phase@1": {
+   "spec": {
+    "key": "phase@1",
+    "id": "phase",
+    "n": 1,
+    "build": {
+     "phase": 1
+    }
+   },
+   "survival": 0,
+   "surviveTime": 57.249500000000005,
+   "kills": 33.27,
+   "dps": 1.1838121985736911,
+   "echoShareSurvive": 0.23955200416432124,
+   "level": 5.84,
+   "bossClear": 1,
+   "bossTime": 34.36066666666666,
+   "bossTimeAll": 34.36066666666666,
+   "bossTaken": 1.38,
+   "bossDps": 5.290645616152135,
+   "echoShareBoss": 0.6173333333333333,
+   "bossBreaks": 4.91,
+   "wins": 100,
+   "runs": 100,
+   "gain": {
+    "dps": 0.017579475931006616,
+    "kills": 0.043601003764115465,
+    "bossDps": 0.04613625507639685,
+    "survival": 0,
+    "bossTime": 0.043881535621864365,
+    "bossTimeAll": 0.043881535621864365,
+    "clear": 0
+   },
+   "diffVsOthers": {
+    "dps": 0.009599803834826615,
+    "kills": 0.01872647427854455,
+    "bossTime": -0.05769479552464869,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": []
+  },
+  "phase@max": {
+   "spec": {
+    "key": "phase@max",
+    "id": "phase",
+    "n": 5,
+    "build": {
+     "phase": 5
+    }
+   },
+   "survival": 0,
+   "surviveTime": 52.48099999999999,
+   "kills": 30.23,
+   "dps": 1.156809941393519,
+   "echoShareSurvive": 0.1940028447036797,
+   "level": 5.52,
+   "bossClear": 0.98,
+   "bossTime": 29.329931972789108,
+   "bossTimeAll": 29.43349999999999,
+   "bossTaken": 0.69,
+   "bossDps": 6.1501895463829905,
+   "echoShareBoss": 0.6391073230945774,
+   "bossBreaks": 4.25,
+   "wins": 98,
+   "runs": 100,
+   "gain": {
+    "dps": -0.005631082925760977,
+    "kills": -0.05175658720200749,
+    "bossDps": 0.2160966216335769,
+    "survival": 0,
+    "bossTime": 0.18386654746303976,
+    "bossTimeAll": 0.18098466789719292,
+    "clear": -0.020000000000000018
+   },
+   "diffVsOthers": {
+    "dps": -0.02920302215577055,
+    "kills": -0.11395859473023844,
+    "bossTime": -0.020267902693690026,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": []
+  },
+  "impact@1": {
+   "spec": {
+    "key": "impact@1",
+    "id": "impact",
+    "n": 1,
+    "build": {
+     "impact": 1
+    }
+   },
+   "survival": 0,
+   "surviveTime": 57.19366666666666,
+   "kills": 33.48,
+   "dps": 1.1814034804132985,
+   "echoShareSurvive": 0.26816386542832105,
+   "level": 5.83,
+   "bossClear": 1,
+   "bossTime": 34.35433333333332,
+   "bossTimeAll": 34.35433333333332,
+   "bossTaken": 1.32,
+   "bossDps": 5.289317584543167,
+   "echoShareBoss": 0.6064555555555553,
+   "bossBreaks": 4.95,
+   "wins": 100,
+   "runs": 100,
+   "gain": {
+    "dps": 0.01550899366509384,
+    "kills": 0.050188205771643624,
+    "bossDps": 0.045873659144855417,
+    "survival": 0,
+    "bossTime": 0.04405776668861894,
+    "bossTimeAll": 0.04405776668861894,
+    "clear": 0
+   },
+   "diffVsOthers": {
+    "dps": 0.00732227334232256,
+    "kills": 0.025972396486825523,
+    "bossTime": -0.057500941351218665,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": []
+  },
+  "impact@max": {
+   "spec": {
+    "key": "impact@max",
+    "id": "impact",
+    "n": 5,
+    "build": {
+     "impact": 5
+    }
+   },
+   "survival": 0,
+   "surviveTime": 56.847666666666676,
+   "kills": 33.47,
+   "dps": 1.185628130549737,
+   "echoShareSurvive": 0.27335877913567364,
+   "level": 5.78,
+   "bossClear": 1,
+   "bossTime": 29.843166666666665,
+   "bossTimeAll": 29.843166666666665,
+   "bossTaken": 1.21,
+   "bossDps": 6.0840134388877525,
+   "echoShareBoss": 0.5862444444444443,
+   "bossBreaks": 4.23,
+   "wins": 100,
+   "runs": 100,
+   "gain": {
+    "dps": 0.019140411956786174,
+    "kills": 0.04987452948557092,
+    "bossDps": 0.20301140854365696,
+    "survival": 0,
+    "bossTime": 0.16958530047396914,
+    "bossTimeAll": 0.16958530047396914,
+    "clear": 0
+   },
+   "diffVsOthers": {
+    "dps": -0.0019543777849686875,
+    "kills": -0.002164366373902195,
+    "bossTime": -0.0359772743816677,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": []
+  },
+  "trail@1": {
+   "spec": {
+    "key": "trail@1",
+    "id": "trail",
+    "n": 1,
+    "build": {
+     "trail": 1
+    }
+   },
+   "survival": 0,
+   "surviveTime": 57.910499999999985,
+   "kills": 34.17,
+   "dps": 1.1893340794015967,
+   "echoShareSurvive": 0.2919002200899234,
+   "level": 5.87,
+   "bossClear": 1,
+   "bossTime": 33.53533333333334,
+   "bossTimeAll": 33.53533333333334,
+   "bossTaken": 1.44,
+   "bossDps": 5.426027181571086,
+   "echoShareBoss": 0.6145999999999998,
+   "bossBreaks": 4.83,
+   "wins": 100,
+   "runs": 100,
+   "gain": {
+    "dps": 0.022325965792982627,
+    "kills": 0.071831869510665,
+    "bossDps": 0.07290568439167311,
+    "survival": 0,
+    "bossTime": 0.06684722621576256,
+    "bossTimeAll": 0.06684722621576256,
+    "clear": 0
+   },
+   "diffVsOthers": {
+    "dps": 0.014820942683000226,
+    "kills": 0.04978042659974904,
+    "bossTime": -0.032432535871360677,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": []
+  },
+  "trail@max": {
+   "spec": {
+    "key": "trail@max",
+    "id": "trail",
+    "n": 3,
+    "build": {
+     "trail": 3
+    }
+   },
+   "survival": 0,
+   "surviveTime": 58.30883333333333,
+   "kills": 34.74,
+   "dps": 1.2032214740086318,
+   "echoShareSurvive": 0.3057464881184788,
+   "level": 5.86,
+   "bossClear": 1,
+   "bossTime": 31.628166666666647,
+   "bossTimeAll": 31.628166666666647,
+   "bossTaken": 1.38,
+   "bossDps": 5.751080586100121,
+   "echoShareBoss": 0.6163888888888889,
+   "bossBreaks": 4.51,
+   "wins": 100,
+   "runs": 100,
+   "gain": {
+    "dps": 0.03426327117241712,
+    "kills": 0.08971141781681324,
+    "bossDps": 0.13717953223279067,
+    "survival": 0,
+    "bossTime": 0.11991596560711681,
+    "bossTimeAll": 0.11991596560711681,
+    "clear": 0
+   },
+   "diffVsOthers": {
+    "dps": 0.014680767352225354,
+    "kills": 0.04165621079046437,
+    "bossTime": -0.0906135427352053,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": []
+  },
+  "mark@1": {
+   "spec": {
+    "key": "mark@1",
+    "id": "mark",
+    "n": 1,
+    "build": {
+     "mark": 1
+    }
+   },
+   "survival": 0,
+   "surviveTime": 55.287000000000006,
+   "kills": 31.74,
+   "dps": 1.1618641245385655,
+   "echoShareSurvive": 0.2422980788935366,
+   "level": 5.69,
+   "bossClear": 1,
+   "bossTime": 32.34783333333334,
+   "bossTimeAll": 32.34783333333334,
+   "bossTaken": 1.32,
+   "bossDps": 5.6299583477921455,
+   "echoShareBoss": 0.594177777777778,
+   "bossBreaks": 4.59,
+   "wins": 100,
+   "runs": 100,
+   "gain": {
+    "dps": -0.0012866159214570683,
+    "kills": -0.004391468005018884,
+    "bossDps": 0.11322964520895851,
+    "survival": 0,
+    "bossTime": 0.09989055123222623,
+    "bossTimeAll": 0.09989055123222623,
+    "clear": 0
+   },
+   "diffVsOthers": {
+    "dps": -0.011152897202883438,
+    "kills": -0.034065244667503235,
+    "bossTime": 0.00391512164674937,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": []
+  },
+  "mark@max": {
+   "spec": {
+    "key": "mark@max",
+    "id": "mark",
+    "n": 3,
+    "build": {
+     "mark": 3
+    }
+   },
+   "survival": 0,
+   "surviveTime": 56.611000000000004,
+   "kills": 32.87,
+   "dps": 1.176877160533526,
+   "echoShareSurvive": 0.25501076734552497,
+   "level": 5.83,
+   "bossClear": 1,
+   "bossTime": 30.57249999999999,
+   "bossTimeAll": 30.57249999999999,
+   "bossTaken": 1.27,
+   "bossDps": 5.937280806978761,
+   "echoShareBoss": 0.5809333333333334,
+   "bossBreaks": 4.34,
+   "wins": 100,
+   "runs": 100,
+   "gain": {
+    "dps": 0.011618266557614776,
+    "kills": 0.03105395232120456,
+    "bossDps": 0.17399749659798824,
+    "survival": 0,
+    "bossTime": 0.14929090183929639,
+    "bossTimeAll": 0.14929090183929639,
+    "clear": 0
+   },
+   "diffVsOthers": {
+    "dps": -0.010228737724057226,
+    "kills": -0.022867001254705185,
+    "bossTime": -0.05830111287980777,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": []
+  },
+  "feedback@1": {
+   "spec": {
+    "key": "feedback@1",
+    "id": "feedback",
+    "n": 1,
+    "build": {
+     "feedback": 1
+    }
+   },
+   "survival": 0,
+   "surviveTime": 56.151,
+   "kills": 32.37,
+   "dps": 1.166472245849112,
+   "echoShareSurvive": 0.2540746141857388,
+   "level": 5.73,
+   "bossClear": 1,
+   "bossTime": 34.022666666666666,
+   "bossTimeAll": 34.022666666666666,
+   "bossTaken": 1.45,
+   "bossDps": 5.32680210350647,
+   "echoShareBoss": 0.6137777777777778,
+   "bossBreaks": 5,
+   "wins": 100,
+   "runs": 100,
+   "gain": {
+    "dps": 0.0026744259345585775,
+    "kills": 0.015370138017565926,
+    "bossDps": 0.053285592798451686,
+    "survival": 0,
+    "bossTime": 0.053286709394971266,
+    "bossTimeAll": 0.053286709394971266,
+    "clear": 0
+   },
+   "diffVsOthers": {
+    "dps": -0.006795751161266229,
+    "kills": -0.012327478042659944,
+    "bossTime": -0.047349104374231094,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": []
+  },
+  "feedback@max": {
+   "spec": {
+    "key": "feedback@max",
+    "id": "feedback",
+    "n": 3,
+    "build": {
+     "feedback": 3
+    }
+   },
+   "survival": 0,
+   "surviveTime": 55.83116666666667,
+   "kills": 32.11,
+   "dps": 1.1670036918499864,
+   "echoShareSurvive": 0.2452396413257014,
+   "level": 5.74,
+   "bossClear": 0.99,
+   "bossTime": 32.81565656565656,
+   "bossTimeAll": 32.89566666666666,
+   "bossTaken": 1.25,
+   "bossDps": 5.522049331759559,
+   "echoShareBoss": 0.62855910693302,
+   "bossBreaks": 4.77,
+   "wins": 99,
+   "runs": 100,
+   "gain": {
+    "dps": 0.0031312454737617568,
+    "kills": 0.007214554579673793,
+    "bossDps": 0.09189245082635478,
+    "survival": 0,
+    "bossTime": 0.08687292166093474,
+    "bossTimeAll": 0.08464656395796466,
+    "clear": -0.010000000000000009
+   },
+   "diffVsOthers": {
+    "dps": -0.019564460916295545,
+    "kills": -0.04909033877038903,
+    "bossTime": -0.12696089107600556,
+    "survival": 0
+   },
+   "outlier": [],
+   "absolute": []
+  }
+ },
+ "outliers": [
+  {
+   "key": "sharp@max",
+   "why": [
+    "보스 클리어 시간 -33%"
+   ],
+   "kind": "ABSOLUTE"
+  },
+  {
+   "key": "rapid@max",
+   "why": [
+    "보스 클리어 시간 -33%"
+   ],
+   "kind": "ABSOLUTE"
+  },
+  {
+   "key": "power@max",
+   "why": [
+    "보스 클리어 시간 -35%"
+   ],
+   "kind": "ABSOLUTE"
+  }
+ ]
+}

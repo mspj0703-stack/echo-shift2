@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="dark" />
+<title>ECHO//SHIFT 2.2 프로토타입</title>
+<style>
+{{STYLE}}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="cv" width="960" height="600" aria-label="게임 화면"></canvas>
+
+  <div id="ovTitle" class="ov">
+    <h1>ECHO//SHIFT<small>2.2 프로토타입</small></h1>
+    <p>4초마다, <b style="color:var(--echo)">방금 네가 한 행동</b>이 ECHO가 되어 그대로 되살아난다.<br>60초를 버텨라.</p>
+    <div class="keys"><b>WASD</b> 이동 · <b>마우스 / J</b> 공격 · <b>Space</b> 대시 · <b>R</b> 재시작 · <b>M</b> 소리<br>터치: 왼쪽 드래그 이동 · 오른쪽 버튼 공격/대시</div>
+    <p style="color:var(--muted);font-size:clamp(12px,1.7vw,14px)">적을 처치하면 XP → 레벨업 → 업그레이드 3택 1. ECHO 빌드를 키워라.</p>
+    <button id="btnStart" type="button">시작 · Enter</button>
+  </div>
+
+  <div id="ovLevel" class="ov hidden">
+    <h1 id="lvTitle" style="color:#7cf5b0">LEVEL UP</h1>
+    <div id="lvSub" style="color:var(--muted);min-height:1.2em;font-size:13px"></div>
+    <div id="lvChoices" class="choices"></div>
+    <div class="keys"><b>1 / 2 / 3</b> 으로 선택 (게임은 멈춰 있다)</div>
+  </div>
+
+  <div id="ovEnd" class="ov hidden">
+    <h1 id="endTitle"></h1>
+    <div id="endStat" class="stat"></div>
+    <button id="btnRetry" type="button">다시 하기 · R</button>
+  </div>
+
+  <div id="touch" class="hidden">
+    <div id="joyZone"></div><div id="joyBase"></div><div id="joyKnob"></div>
+    <button id="tDash" class="tbtn" type="button">대시</button>
+    <button id="tAtk" class="tbtn" type="button">공격</button>
+  </div>
+  <div id="rot" class="hidden">가로 모드로 돌리면 더 잘 보인다</div>
+</div>
+
+<script>
+{{SCRIPT}}
+</script>
+</body>
+</html>

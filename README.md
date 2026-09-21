@@ -46,3 +46,7 @@
 - `tests/sim/long_build.js` → `LONG_BUILD_REPORT.md` (ATTACK/ECHO/DASH/HYBRID/RANDOM, 300초 전체 런 200판씩, LONG BUILD DOMINANCE 판정)
 - `tests/sim/ablation.js` → `ABLATION_REPORT.md` (SMART의 WARDEN 플랭크 / PHASE 유도 / ELITE SYNC 판단을 하나씩 제거해 기여도 분해)
 - DEATH_REPORT에 DEATH SOURCE DOMINANCE(한 적이 사망 원인 60% 이상) 판정 추가
+
+## 참고: 느린 환경에서 `npm test` 실행 시
+
+`tests/run_all.js`는 각 잡에 15분(900000ms) `spawnSync` 타임아웃을 둔다. `long_build`(빌드 5종 × 200판)와 `ablation`(변형 5종 × 200판)은 기본값(N=200)에서 판당 300초+ 전체 런을 최대 1000회 수행하므로, CPU가 느린 환경에서는 이 타임아웃을 넘겨 FAIL로 표시될 수 있다. 이는 게임 로직 결함이 아니라 실행 환경의 속도 문제이며, `node tests/sim/long_build.js <작은 N>` / `node tests/sim/ablation.js <작은 N>`처럼 N을 줄여 직접 실행하면 예외 없이 정상 종료됨을 확인했다.

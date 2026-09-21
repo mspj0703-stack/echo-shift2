@@ -1,0 +1,38 @@
+PASS 1. ECHO 없음 → 플레이어 추적 (x 152.5)
+PASS 2. ECHO 있음 → 플레이어(오른쪽)가 아니라 ECHO(위쪽) 추적 (y 247.5)
+PASS 3. 여러 ECHO → 가장 가까운 ECHO 선택 (위쪽 근접→위, 오른쪽 근접→오른쪽)
+PASS 4a. 접촉 → PHASE COLLISION, 피해 1 (hp 2, 34틱 후)
+PASS 4b. 기절 0.9초 / 내부 쿨다운 1.5초 (stun 0.90, cd 1.50)
+PASS 4c. ECHO는 영향 없음
+PASS 4d. 기절 중에는 이동하지 않음(약한 넉백만) Δx 8.6
+PASS 5a. 1.5초(90틱) 이내 중복 접촉 피해 없음 (충돌 1→1, hp 2)
+PASS 5b. 쿨다운 후에는 다시 충돌 (충돌 2, hp 1)
+PASS 6. ECHO 소멸 시 새 목표(플레이어)로 전환 (Δx 52.4)
+PASS (추가) 기절한 PHASE HUNTER는 접촉 피해를 주지 않음
+PASS (추가) 정상 상태의 접촉 피해 1
+PASS (추가) 충돌로 처치 → ECHO 처치 + XP 18 1회 (xp 18)
+PASS 7. 정면 기본 공격 차단 (hp 5)
+PASS 8. 후방 기본 공격 정상 피해 (hp 4)
+PASS 8b. 측면(90°) 기본 공격 정상 피해
+PASS 9. ECHO 정면 공격 차단 (hp 5)
+PASS 10. ECHO 후방 공격 정상 피해 (hp 4)
+PASS 10b. 플레이어가 시선을 끄는 동안 ECHO가 후방을 침
+PASS 11a. 플레이어 대시(정면) 차단 (hp 5)
+PASS 11b. 플레이어 대시(후방) 정상 피해 (hp 4)
+PASS 11c. ECHO 대시(정면) 차단 (hp 5)
+PASS 11d. ECHO 대시(후방) 정상 피해 (hp 4)
+PASS 12. 비방향성 피해(PULSE 해당, 방향 정보 없음)는 방패 무시 — ※ 2.x에는 PULSE 자체가 없음
+PASS 13a. 틱당 회전 ≤ 180°/초 (최대 180.0°/초)
+PASS 13b. 0.25초에 45° 회전 (45.0°)
+PASS 13c. 1초 후 180° 도달
+PASS (추가) 정면 ±60° 안쪽(약 52°)은 차단
+PASS (추가) ±60° 바깥쪽(약 69°)은 정상 피해
+PASS 0~45초(PHASE 1 전반): 추격자 72 / 사격 28 ({"shooter":1101,"chaser":2899})
+PASS 45~90초(PHASE 1 후반): 58/30/PHASE 12, WARDEN 없음
+PASS 90~150초(PHASE 2 전반): 42/28/20/WARDEN 10
+PASS 150~210초(PHASE 2 후반): 35/28/23/WARDEN 14 (v2.6.1)
+PASS 210~255초(PHASE 3): 29/27/28/WARDEN 16
+PASS 255~300초(PHASE 3 후반): 25/27/PHASE 30/WARDEN 18
+PASS 상한(WARDEN 3 / PHASE HUNTER 5)이 차면 뽑히지 않음
+PASS WARDEN 25 + PHASE HUNTER 18 = 43 XP (Lv2, 13 이월), 중복 호출에도 1회씩 → 레벨 2 xp 13
+ALL PASS v2.2 단위

@@ -1,0 +1,12 @@
+ELITE: 생성 lock 322 / relay 301 (ELITE가 나온 판 205/300, 판당 2.08기), 처치 chaser 358 / shooter 103, SYNC BREAK 114, RELAY BURST 82 (주변 처치 42), XP 보너스 5125 | 상한위반 0 상태오류 0 보스진입후 잔존 0
+게임 300 | 120초 생존(무적+일반 합) 124 사망 176 | 예외 0 NaN 0 상한위반 0 XP불일치 0
+동시 최대(관측) {"total":18,"warden":3,"phase":5,"shooter":8} 레벨업 1645
+0~45초 스폰 chaser 72% / shooter 28%
+45~90초 스폰 chaser 62% / shooter 25% / phase 13%
+90~150초 스폰 chaser 42% / shooter 26% / phase 21% / warden 11%
+150~210초 스폰 
+PHASE HUNTER: 추적 틱 ECHO 355364 / 플레이어 55436 (ECHO 비율 87%), 대상 전환 3403회 (판당 11.3), 충돌 판당 4.0
+chaser   처치 플레이어/ECHO 8003/2505 ECHO 24%
+shooter  처치 플레이어/ECHO 1005/2328 ECHO 70%
+phase    처치 플레이어/ECHO 321/881 ECHO 73%
+warden   처치 플레이어/ECHO 6/59 ECHO 91%

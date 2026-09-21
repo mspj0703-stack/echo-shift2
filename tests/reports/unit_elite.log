@@ -1,0 +1,117 @@
+PASS ELITE HP x1.8 올림: CHASER 2→4, SHOOTER 2→4 (4,4)
+PASS ELITE 크기 약간 증가 (r 11 → 13.8)
+PASS 이동속도/공격 피해 설정은 ELITE 여부와 무관 (CFG 공용, 특성별 배율 없음)
+PASS 일반 적은 elite 필드 없음
+PASS (준비) ELITE 처치
+PASS ELITE CHASER XP x2: 10 → 20 (지급 20, 보너스 10)
+PASS ELITE SHOOTER XP x2 (기본 15 → 30), 보너스 텔레메트리 15
+PASS 0~45초: ELITE 없음 (3000회 0건)
+PASS 44.99초까지 없음 (v2.6)
+PASS PHASE 1(45~90초): 생성 확률 10% (10.1%)
+PASS 특성 배분 동일 확률 (lock 321 / relay 286)
+PASS PHASE 2(90~210초): 생성 확률 16% (16.0%)
+PASS PHASE 3(210초~): 생성 확률 20% (19.2%)
+PASS PHASE 1: 동시 최대 1기 (이미 1기면 추가 생성 0)
+PASS PHASE 2: 1기 있으면 2번째 생성 가능
+PASS PHASE 2: 동시 최대 2기
+PASS PHASE 3: 2기 있으면 3번째 생성 가능
+PASS PHASE 3: 동시 최대 3기
+PASS PHASE HUNTER / WARDEN은 ELITE가 될 수 없음
+PASS 보스전에는 ELITE 생성 없음
+PASS noElite 플래그 (테스트용)로 생성 차단
+PASS spawnEnemy 경로: 45초 전 0기 / PHASE 1 1 / PHASE 2 2 / PHASE 3 0기
+PASS LOCK: 보호막 중 PLAYER 피해 -65% (1 → 0.35)
+PASS LOCK: ECHO 피해도 -65%
+PASS LOCK: 대시 피해도 -65%
+PASS LOCK: PLAYER 단독 연속 공격으로 해제 불가 (12회)
+PASS LOCK: ECHO 단독 연속 공격으로 해제 불가 (12회)
+PASS LOCK: PLAYER → ECHO (60틱) → SYNC BREAK
+PASS LOCK: ECHO → PLAYER → SYNC BREAK (순서 무관)
+PASS LOCK: 경계 75틱(1.25초) → 성립
+PASS LOCK: 76틱 → 성립하지 않음
+PASS LOCK: 창은 마지막 타격 기준 (30+30틱)
+PASS LOCK: 실제 대시 타격도 PLAYER 공격으로 인정
+PASS BREAK: 보호막 제거, 정상 피해 3초(180틱), 경직 0.3초(18틱)
+PASS BREAK 중 피해 정상 (1 → 1)
+PASS BREAK 경직 0.3초: 이동 정지 (17틱 동안 Δx 0.00)
+PASS 경직 종료 후 다시 이동
+PASS BREAK 총 지속 3초 (경직 포함, 남은 160틱)
+PASS BREAK 정확히 180틱(3초) 후 보호막 복구 (실제 180)
+PASS 복구 후 보호시간 0.75초(45틱) 시작
+PASS 보호시간 중 PLAYER+ECHO → BREAK 없음
+PASS 보호 44틱째까지 무효
+PASS 45틱 후 보호 해제
+PASS 보호 해제 후 다시 BREAK 가능
+PASS LOCK: resonance/mark/relay 추가 피해 이벤트는 ECHO 공격으로 등록되지 않음
+PASS LOCK: 추가 피해도 보호막 -65% 적용 (1.40)
+PASS (대조) 실제 ECHO 공격이 들어오면 BREAK
+PASS ELITE에 RESONANCE 정상 (1+1+추가1 = 3, 발동 1회)
+PASS ELITE에 ECHO POWER 정상 (1 → 1.5)
+PASS ELITE에 PHASE MARK 정상 (대시 1 + ECHO 1 + 마크 2)
+PASS    PHASE MARK 소비 1회
+PASS RESONANCE 3스택이 있어도 SYNC BREAK는 실제 PLAYER/ECHO 타격 기준 1회
+PASS RELAY: PLAYER → ECHO (30틱) → RELAY BURST
+PASS    ELITE 자신: GUARD 중 기본 0.6+0.6 + BURST 추가 피해 2 (3.1999999999999886)
+PASS    반경 140px 안의 다른 적 피해 2, 밖(170px)은 피해 없음
+PASS    PLAYER/ECHO에는 피해 없음
+PASS    피해 이벤트 kind=relay, 적 id 기록
+PASS    쿨다운 중(1.5초) 재발동 없음
+PASS    89틱째까지 쿨다운
+PASS    90틱 후 다시 발동
+PASS RELAY: PLAYER → PLAYER 미발동
+PASS RELAY: ECHO → ECHO 미발동
+PASS RELAY: ECHO → PLAYER 발동
+PASS RELAY: 경계 60틱(1초) → 발동
+PASS RELAY: 61틱 → 미발동
+PASS RELAY: 실제 대시 타격도 PLAYER 공격으로 인정
+PASS RELAY BURST로 주변 적 처치 (relayKills 1, 처치자 소스 기록)
+PASS    BURST 처치 XP 정확히 1회 (10)
+PASS RELAY: 자신 추가 피해로 ELITE가 죽어도 정상 처리 (XP 중복 없음)
+PASS    ELITE 처치 1회 집계
+PASS RELAY 추가 피해(kind=relay)는 RESONANCE/FEEDBACK를 다시 발동시키지 않음 (각 1회)
+PASS    주변 적은 relay 피해로 RESONANCE 창이 열리지 않음
+PASS 실제 경로: 플레이어 slash + ECHO 재생 공격 → SYNC BREAK (LOCK)
+PASS 실제 경로: 플레이어 slash + ECHO 재생 공격 → RELAY BURST
+PASS ECHO 타격 예측(ELITE 대상): 101틱 뒤 (101)
+PASS    예측한 틱에 실제 ECHO 타격
+PASS    닿지 않는 ECHO 공격은 예측 제외
+PASS 첫 등장 안내: SYNC LOCK — PLAYER + ECHO로 보호막 파괴
+PASS    같은 특성 두 번째 등장에는 안내 없음
+PASS 첫 등장 안내: RELAY CORE — PLAYER + ECHO로 연쇄 폭발
+PASS    RELAY도 한 번만
+PASS    안내가 게임을 멈추지 않음
+PASS 레벨업 선택창 열림 (ELITE BREAK 진행 중)
+PASS 레벨업 중 ELITE 타이머(BREAK/보호/경직) 완전 정지
+PASS 선택 후 타이머 재개
+PASS 보스 진입: ELITE 포함 일반 적 전부 제거, 보스는 ELITE 아님
+PASS    ELITE 이펙트/상태 완전 제거
+PASS    보스전 동안 ELITE 재생성 없음
+PASS    렌더 예외 없음
+PASS ELITE 렌더 (LOCK/RELAY/BREAK/ECHO 타격 예고) 예외 없음
+PASS GUARD 1. 생성 시 RELAY GUARD 활성
+PASS GUARD 2. GUARD 중 피해 40% 감소 (1 → 0.6)
+PASS    큰 피해도 동일 비율 (5 → 3)
+PASS GUARD 3. PLAYER 단독 공격으로는 GUARD 해제 안 됨 (8회)
+PASS GUARD 4. ECHO 단독 공격으로도 GUARD 해제 안 됨
+PASS GUARD 5. PLAYER + ECHO (1초 내) → RELAY BURST
+PASS GUARD 6. 첫 BURST 직후 GUARD 영구 제거
+PASS    GUARD 해제 후 피해 정상 (0.6 → 1)
+PASS GUARD 7. 시간이 지나도 GUARD 재생성 없음 (200틱 후에도 피해 1)
+PASS    두 번째 BURST는 정상 발동하되 GUARD는 해제 상태 유지
+PASS GUARD 8. BURST 자신 추가 피해 2 (GUARD 중 기본 0.6x2 + 2)
+PASS GUARD 9/10. 주변 피해 2, 반경 140px 안(130/139) 판정 정확
+PASS GUARD 11. 반경 밖(153/200)은 피해 없음
+PASS GUARD 12. 주변 적 넉백 정상 (260,260)
+PASS    PLAYER에는 피해/넉백 없음
+PASS GUARD 13. BURST로 주변 적 처치 → 처치 통계 1회
+PASS    RELAY 소스로 기록, 피해 이벤트 1건
+PASS    XP 중복 지급 없음 (30틱 후에도 동일)
+PASS GUARD 14. RESONANCE/MARK 3스택이 있어도 BURST는 실제 타격 기준 1회
+PASS    시너지 추가 피해만으로는 추가 BURST 없음
+PASS GUARD 15. 레벨업 정지 중 RELAY 타이머/상태 완전 정지 (400틱)
+PASS    선택 후 정상 재개
+PASS SHARP EDGE 최대 4스택
+PASS    4스택 기본 공격 피해 1.8 (1.8000000000000114)
+PASS    5번째부터 선택 후보에서 제외
+PASS 레벨업 중 실제 rAF 루프에서도 ELITE 정지
+ALL PASS unit_elite (116/116)

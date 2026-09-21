@@ -1,0 +1,41 @@
+PASS 플레이어 처치: 추격자 XP 10 → 10
+PASS 사격 적 XP 15 → 누적 25
+PASS ECHO 처치도 XP 10 (ECHO 1)
+PASS 플레이어+ECHO 동시 타격, hp1 → XP 1회 (10)
+PASS hp2를 두 공격이 동시에 → XP 1회 (10)
+PASS 같은 적에 hitEnemy 3회 호출해도 XP 1회 (10)
+PASS 초과 XP 이월: Lv2, 10/42
+PASS 필요 XP 30→42→59→83→116→162 (30,42,59,83,116,162)
+PASS 한 번에 100XP: Lv3 28/59, 선택 2회 대기
+PASS 10기 동시 처치 → 100XP, 선택창 발생, 대기 2
+PASS 첫 선택창 = LV 2 (LEVEL UP — LV 2)
+PASS 두 번째 선택창 즉시 이어짐 = LV 3
+PASS 모두 선택 후 재개
+PASS 레벨업 → 일시정지 상태
+PASS step 300회에도 적/투사체/ECHO/녹화/타이머/이펙트 전부 정지
+PASS rAF 루프 400ms 동안에도 정지
+PASS 선택 후 정상 재개
+PASS ECHO POWER: 살아 있는 ECHO가 1 → 1.25 피해 (1.25)
+PASS 플레이어 피해는 그대로 (내 공격 1)
+PASS LONG REACH: 기존 ECHO 공격 사거리 증가 (전 true / 후 hp 99)
+PASS SHARP EDGE: 기존 ECHO 공격 1 → 1.2 (1.2000000000000028)
+PASS IMPACT: ECHO 대시 피해 1 → 2 (1 → 2)
+PASS DEEP RECORD: 살아 있는 ECHO 반복 3→4회 (12s→16s) true,true,false
+PASS DEEP RECORD가 동시 ECHO 상한도 함께 증가: 3 → 5 (전 3 / 후 5)
+PASS 상한 3에서 4번째 생성 시 가장 오래된 ECHO 소멸
+PASS DEEP RECORD 최대 2단계(반복 5회), 이후 선택지에서 제외
+PASS 동시 ECHO 상한도 함께 최대 5개
+PASS RAPID CUT 최대 5단계 (쿨 ×0.9씩, 0.177), 제외
+PASS PHASE DRIVE 최소 0.45초 (0.450), 제외
+PASS SHARP EDGE 최대 5단계
+PASS 선택지 3개, 중복 없음, 최대치 항목 미등장 (200회)
+PASS 새 런: 레벨/XP/업그레이드 초기화
+PASS 카드 3개 표시
+PASS ESC/Enter/Space/이동키로 닫히지 않음
+PASS 2번 키 → 두 번째 업그레이드 적용 + 닫힘
+PASS 일시정지 중 눌린 Space 대시 입력이 남지 않음
+PASS 카드 클릭으로 선택
+PASS 랜덤 시뮬 25판 예외 없음 
+PASS 누적 XP가 (처치×10 ~ 처치×15) 범위 안 = 중복 지급 없음 (위반 0)
+   레벨업 총 125회, 최고 레벨 LV 6
+ALL PASS 2.1
