@@ -1,4 +1,4 @@
-name: OpenRouter Supervisor (v0.4)
+name: OpenRouter Supervisor (v0.5)
 
 "on":
   workflow_dispatch: {}
@@ -8,8 +8,15 @@ name: OpenRouter Supervisor (v0.4)
   schedule:
     - cron: '0 * * * *' # every hour
 
+# contents: write / pull-requests: write are needed only for the v0.5 Claude
+# worker path (pushing an auto/claude-<run id> branch and opening a PR for
+# it). They do NOT grant `workflows: write`, so GitHub itself refuses any
+# push that touches .github/workflows/** regardless of what the Claude
+# worker's Bash tool attempts — that is a server-side guarantee, not just a
+# prompt instruction. main is never pushed to or merged by this workflow.
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
 
 jobs:
   supervise:
@@ -110,13 +117,271 @@ jobs:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: node .github/scripts/openrouter_supervisor.js
 
+      # --- v0.5: Claude worker gate -------------------------------------
+      # Reads NEXT_TASK.md's own "# Decision" heading (the same fixed
+      # format openrouter_supervisor.js already enforces) rather than
+      # trusting any separate signal, so this can never drift from what's
+      # actually in the artifact.
+      - name: Parse supervisor decision
+        id: parse_decision
+        if: always() && steps.decide.outputs.execution == 'RUN'
+        run: |
+          OUT=$(node .github/scripts/parse_decision.js)
+          DECISION=$(printf '%s' "$OUT" | sed -n '1p')
+          SUMMARY=$(printf '%s' "$OUT" | tail -n +2)
+          echo "Decision: $DECISION"
+          echo "decision=$DECISION" >> "$GITHUB_OUTPUT"
+          {
+            echo "summary<<'SUMMARY_EOF'"
+            echo "$SUMMARY"
+            echo "SUMMARY_EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      # GitHub Actions supports comparing a secret directly in a shell
+      # condition like this without ever printing its value; only the
+      # true/false comparison result leaves this step.
+      - name: Check CLAUDE_CODE_OAUTH_TOKEN availability
+        id: oauth_check
+        if: always() && steps.decide.outputs.execution == 'RUN'
+        env:
+          TOKEN_PRESENT: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN != '' }}
+        run: echo "has_token=$TOKEN_PRESENT" >> "$GITHUB_OUTPUT"
+
+      # Single choke point for "should the Claude worker run at all". Never
+      # runs on NO_ACTION, never runs without the OAuth secret, and this is
+      # the only place in the whole job that can set execution=RUN for the
+      # worker — there is exactly one claude-code-action step below, called
+      # at most once per workflow run, and this job never re-triggers itself
+      # (the workflow only reacts to workflow_dispatch/schedule, not push).
+      - name: Decide whether to run the Claude worker
+        id: worker_decide
+        if: always() && steps.decide.outputs.execution == 'RUN'
+        env:
+          DECISION: ${{ steps.parse_decision.outputs.decision }}
+          HAS_TOKEN: ${{ steps.oauth_check.outputs.has_token }}
+        run: |
+          if [ "$DECISION" = "TASK" ]; then
+            if [ "$HAS_TOKEN" = "true" ]; then
+              EXEC=RUN
+              REASON=TASK
+              echo "Claude worker: RUN"
+            else
+              EXEC=SKIP
+              REASON=NO_TOKEN
+              echo "Claude worker: SKIP (CLAUDE_CODE_OAUTH_TOKEN unavailable)"
+            fi
+          elif [ "$DECISION" = "NO_ACTION" ]; then
+            EXEC=SKIP
+            REASON=NO_ACTION
+            echo "Claude worker: SKIP (NO_ACTION)"
+          else
+            EXEC=SKIP
+            REASON=INVALID_DECISION
+            echo "Claude worker: SKIP (invalid or missing Decision: $DECISION)"
+          fi
+          echo "execution=$EXEC" >> "$GITHUB_OUTPUT"
+          echo "reason=$REASON" >> "$GITHUB_OUTPUT"
+
+      # Creates the dedicated auto/claude-<run id> branch (never main) and
+      # builds the full prompt (fixed safety preamble + the one task from
+      # NEXT_TASK.md's "# Claude Prompt") that the worker step below gets as
+      # its `prompt` input.
+      - name: Prepare Claude worker
+        id: prepare_worker
+        if: always() && steps.worker_decide.outputs.execution == 'RUN'
+        run: |
+          BRANCH_NAME="auto/claude-${{ github.run_id }}"
+          git checkout -b "$BRANCH_NAME"
+          echo "WORKER_BASE_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
+          TASK_BODY=$(node .github/scripts/extract_claude_prompt.js)
+
+          {
+            cat .github/scripts/worker_safety_preamble.md
+            echo
+            echo "현재 작업 브랜치: $BRANCH_NAME (이미 체크아웃되어 있습니다)"
+            echo
+            echo "작업 지시 (NEXT_TASK.md의 \"# Claude Prompt\"):"
+            echo "---"
+            echo "$TASK_BODY"
+            echo "---"
+          } > "$RUNNER_TEMP/full_prompt.txt"
+
+          {
+            echo "full_prompt<<'PROMPT_EOF'"
+            cat "$RUNNER_TEMP/full_prompt.txt"
+            echo "PROMPT_EOF"
+          } >> "$GITHUB_OUTPUT"
+          echo "branch_name=$BRANCH_NAME" >> "$GITHUB_OUTPUT"
+
+      # The one and only Claude worker invocation for this run. continue-on-
+      # error so a crash here still lets us verify/record/upload results
+      # instead of aborting the job outright.
+      - name: Run Claude Code worker
+        id: claude_worker
+        if: always() && steps.worker_decide.outputs.execution == 'RUN' && steps.prepare_worker.outcome == 'success'
+        continue-on-error: true
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ github.token }}
+          prompt: ${{ steps.prepare_worker.outputs.full_prompt }}
+          settings: |
+            {
+              "permissions": {
+                "deny": [
+                  "Edit(.github/workflows/**)",
+                  "Write(.github/workflows/**)",
+                  "Edit(.github/scripts/**)",
+                  "Write(.github/scripts/**)",
+                  "Bash(git push --force*)",
+                  "Bash(git push * --force*)",
+                  "Bash(git push origin main*)",
+                  "Bash(git push * main)",
+                  "Bash(git checkout main)",
+                  "Bash(git checkout -B main)",
+                  "Bash(git merge*)",
+                  "Bash(env)",
+                  "Bash(printenv*)",
+                  "Bash(cat *.env*)",
+                  "Read(.env)",
+                  "Read(**/.env)"
+                ]
+              }
+            }
+
+      # Deterministic re-check, independent of anything the worker itself
+      # claimed. This — not the model's own report — is what decides
+      # SUCCESS vs FAILED in CLAUDE_RESULT.md.
+      - name: Verify build + unit tests after Claude worker
+        id: verify_worker
+        if: always() && steps.worker_decide.outputs.execution == 'RUN' && steps.prepare_worker.outcome == 'success'
+        run: |
+          BUILD_RESULT=PASS
+          if ! npm run build > build.log 2>&1; then
+            BUILD_RESULT=FAIL
+          fi
+          cat build.log
+
+          mkdir -p unit-test-logs
+          LOG=unit-test-logs/unit-tests.log
+          : > "$LOG"
+          TEST_RESULT=PASS
+          for f in tests/unit/*.js; do
+            echo "=== $f ===" | tee -a "$LOG"
+            if node "$f" >> "$LOG" 2>&1; then
+              echo "PASS $f" | tee -a "$LOG"
+            else
+              echo "FAIL $f" | tee -a "$LOG"
+              TEST_RESULT=FAIL
+            fi
+          done
+
+          echo "Build result: $BUILD_RESULT"
+          echo "Unit test result: $TEST_RESULT"
+          echo "build_result=$BUILD_RESULT" >> "$GITHUB_OUTPUT"
+          echo "test_result=$TEST_RESULT" >> "$GITHUB_OUTPUT"
+
+      # Pushes the branch whenever a commit exists — even on a failed
+      # verification — so it's preserved for human review. Never pushes to
+      # main, never force-pushes. Idempotent if the worker already pushed.
+      - name: Determine Claude worker changes and push branch
+        id: worker_push
+        if: always() && steps.worker_decide.outputs.execution == 'RUN' && steps.prepare_worker.outcome == 'success'
+        run: |
+          HEAD_SHA=$(git rev-parse HEAD)
+          if [ "$HEAD_SHA" != "$WORKER_BASE_SHA" ]; then
+            HAD_COMMIT=true
+            CHANGED_FILES=$(git diff --name-only "$WORKER_BASE_SHA" "$HEAD_SHA")
+          else
+            HAD_COMMIT=false
+            CHANGED_FILES=""
+          fi
+
+          echo "had_commit=$HAD_COMMIT" >> "$GITHUB_OUTPUT"
+          {
+            echo "changed_files<<'FILES_EOF'"
+            echo "$CHANGED_FILES"
+            echo "FILES_EOF"
+          } >> "$GITHUB_OUTPUT"
+
+          if [ "$HAD_COMMIT" = "true" ]; then
+            echo "commit_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+            git push -u origin HEAD
+          else
+            echo "commit_sha=" >> "$GITHUB_OUTPUT"
+            echo "No commit was produced by the Claude worker; nothing to push."
+          fi
+
+      # Best-effort only, per spec: PR creation failing must not fail the
+      # job — the pushed branch is the guaranteed deliverable. Only attempted
+      # when there's a commit AND it verified clean; never merges anything.
+      - name: Create pull request for review
+        id: create_pr
+        if: >-
+          always() && steps.worker_decide.outputs.execution == 'RUN' &&
+          steps.worker_push.outputs.had_commit == 'true' &&
+          steps.verify_worker.outputs.build_result == 'PASS' &&
+          steps.verify_worker.outputs.test_result == 'PASS'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_SUMMARY: ${{ steps.parse_decision.outputs.summary }}
+          PR_BRANCH: ${{ steps.prepare_worker.outputs.branch_name }}
+          PR_BUILD_RESULT: ${{ steps.verify_worker.outputs.build_result }}
+          PR_TEST_RESULT: ${{ steps.verify_worker.outputs.test_result }}
+        run: |
+          DEFAULT_BRANCH=$(gh api "repos/${{ github.repository }}" --jq .default_branch)
+          BODY_FILE="$RUNNER_TEMP/pr_body.md"
+          {
+            echo "OpenRouter Supervisor(v0.5)가 자동 생성한 작업입니다. **자동으로 병합되지 않습니다 — 사람이 검토한 뒤 병합하세요.**"
+            echo
+            echo "## Task summary"
+            echo "$PR_SUMMARY"
+            echo
+            echo "## Branch"
+            echo "$PR_BRANCH"
+            echo
+            echo "## Verification"
+            echo "- Build: $PR_BUILD_RESULT"
+            echo "- Unit tests: $PR_TEST_RESULT"
+            echo
+            echo "이 PR은 GitHub Actions에서 자동으로 생성되었습니다 (workflow run: ${{ github.run_id }})."
+          } > "$BODY_FILE"
+
+          if PR_URL=$(gh pr create --title "[auto] Claude worker task (run ${{ github.run_id }})" --body-file "$BODY_FILE" --head "$PR_BRANCH" --base "$DEFAULT_BRANCH"); then
+            echo "PR URL: $PR_URL"
+            echo "pr_url=$PR_URL" >> "$GITHUB_OUTPUT"
+          else
+            echo "PR creation failed or was not possible — the pushed branch is still preserved."
+            echo "pr_url=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Write Claude worker result
+        id: write_result
+        if: always() && steps.decide.outputs.execution == 'RUN'
+        env:
+          WORKER_TRIGGERED: ${{ steps.worker_decide.outputs.execution == 'RUN' }}
+          WORKER_SKIP_REASON: ${{ steps.worker_decide.outputs.reason }}
+          WORKER_ACTION_OUTCOME: ${{ steps.claude_worker.outcome }}
+          WORKER_HAD_COMMIT: ${{ steps.worker_push.outputs.had_commit }}
+          WORKER_BUILD_RESULT: ${{ steps.verify_worker.outputs.build_result }}
+          WORKER_TEST_RESULT: ${{ steps.verify_worker.outputs.test_result }}
+          WORKER_BRANCH: ${{ steps.prepare_worker.outputs.branch_name }}
+          WORKER_CHANGED_FILES: ${{ steps.worker_push.outputs.changed_files }}
+          WORKER_COMMIT_SHA: ${{ steps.worker_push.outputs.commit_sha }}
+          WORKER_PR_URL: ${{ steps.create_pr.outputs.pr_url }}
+          WORKER_TASK_SUMMARY: ${{ steps.parse_decision.outputs.summary }}
+        run: node .github/scripts/write_claude_result.js
+
       - name: Upload supervisor artifacts
         if: always() && steps.decide.outputs.execution == 'RUN'
         uses: actions/upload-artifact@v4
         with:
-          name: openrouter-supervisor-v0.4-${{ github.run_number }}
+          name: openrouter-supervisor-v0.5-${{ github.run_number }}
           path: |
             NEXT_TASK.md
             build.log
             unit-test-logs/unit-tests.log
+            CLAUDE_RESULT.md
           if-no-files-found: warn
