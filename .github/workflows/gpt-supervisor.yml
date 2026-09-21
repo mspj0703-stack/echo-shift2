@@ -1,0 +1,60 @@
+name: GPT Supervisor (v0.1)
+
+"on":
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  supervise:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build 2>&1 | tee build.log
+
+      - name: Run unit tests (tests/unit/*.js)
+        run: |
+          mkdir -p unit-test-logs
+          LOG=unit-test-logs/unit-tests.log
+          : > "$LOG"
+          status=0
+          for f in tests/unit/*.js; do
+            echo "=== $f ===" | tee -a "$LOG"
+            if node "$f" >> "$LOG" 2>&1; then
+              echo "PASS $f" | tee -a "$LOG"
+            else
+              echo "FAIL $f" | tee -a "$LOG"
+              status=1
+            fi
+          done
+          exit $status
+
+      - name: Ask GPT supervisor for next Claude task
+        if: always()
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: node .github/scripts/gpt_supervisor.js
+
+      - name: Upload supervisor artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gpt-supervisor-v0.1-${{ github.run_number }}
+          path: |
+            NEXT_TASK.md
+            build.log
+            unit-test-logs/unit-tests.log
+          if-no-files-found: warn
