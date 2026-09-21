@@ -1,4 +1,4 @@
-name: OpenRouter Supervisor (v0.2)
+name: OpenRouter Supervisor (v0.3)
 
 "on":
   workflow_dispatch: {}
@@ -12,6 +12,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Full history so the supervisor script can read the last 10 commit
+          # messages (default checkout is a shallow, single-commit clone).
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -52,7 +56,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: openrouter-supervisor-v0.2-${{ github.run_number }}
+          name: openrouter-supervisor-v0.3-${{ github.run_number }}
           path: |
             NEXT_TASK.md
             build.log
