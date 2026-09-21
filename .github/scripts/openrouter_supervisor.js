@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// GPT Supervisor v0.1
-// Asks the OpenAI Responses API to decide ONE next task for the Claude worker,
+// OpenRouter Supervisor v0.2
+// Asks an OpenRouter free model to decide ONE next task for the Claude worker,
 // based only on this CI run's build/unit-test logs, and writes NEXT_TASK.md.
 // This script never modifies game code (src/js/*.js) and never commits or opens a PR —
 // NEXT_TASK.md is uploaded as a CI artifact only.
@@ -9,7 +9,9 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..', '..');
 const OUT_FILE = path.join(ROOT, 'NEXT_TASK.md');
-const MODEL = 'gpt-5.6-luna';
+// openrouter/free always routes to a currently-available $0 model, so this
+// doesn't break when individual vendor free models rotate out (they do, weekly).
+const MODEL = 'openrouter/free';
 const HEADINGS = ['# Decision', '# Why', '# Claude Prompt', '# Acceptance Criteria', '# Test Plan', '# Stop Conditions'];
 
 function readTail(file, maxChars) {
@@ -22,30 +24,29 @@ function readTail(file, maxChars) {
 }
 
 function writeFallback(reason) {
-  const md = `# Decision\n(GPT 호출 실패로 결정 없음)\n\n# Why\n${reason}\n\n# Claude Prompt\n(N/A)\n\n# Acceptance Criteria\n(N/A)\n\n# Test Plan\n(N/A)\n\n# Stop Conditions\n(N/A)\n`;
+  const md = `# Decision\n(OpenRouter 호출 실패로 결정 없음)\n\n# Why\n${reason}\n\n# Claude Prompt\n(N/A)\n\n# Acceptance Criteria\n(N/A)\n\n# Test Plan\n(N/A)\n\n# Stop Conditions\n(N/A)\n`;
   fs.writeFileSync(OUT_FILE, md);
 }
 
 function extractText(data) {
-  if (typeof data.output_text === 'string' && data.output_text) return data.output_text;
-  let text = '';
-  if (Array.isArray(data.output)) {
-    for (const item of data.output) {
-      if (item.type === 'message' && Array.isArray(item.content)) {
-        for (const c of item.content) {
-          if (c.type === 'output_text' && typeof c.text === 'string') text += c.text;
-        }
-      }
-    }
+  const choice = Array.isArray(data.choices) ? data.choices[0] : null;
+  const content = choice && choice.message && choice.message.content;
+  if (typeof content === 'string') return content;
+  // Some OpenRouter models return content as an array of parts instead of a plain string.
+  if (Array.isArray(content)) {
+    return content
+      .filter((c) => c && (c.type === 'text' || typeof c.text === 'string'))
+      .map((c) => c.text || '')
+      .join('');
   }
-  return text;
+  return '';
 }
 
 async function main() {
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
-    writeFallback('OPENAI_API_KEY secret이 설정되어 있지 않습니다.');
-    console.error('OPENAI_API_KEY is not set.');
+    writeFallback('OPENROUTER_API_KEY secret이 설정되어 있지 않습니다.');
+    console.error('OPENROUTER_API_KEY is not set.');
     process.exit(1);
   }
 
@@ -83,7 +84,7 @@ async function main() {
 
   const body = {
     model: MODEL,
-    input: [
+    messages: [
       { role: 'system', content: systemPrompt },
       { role: 'user', content: userPrompt },
     ],
@@ -91,24 +92,27 @@ async function main() {
 
   let res;
   try {
-    res = await fetch('https://api.openai.com/v1/responses', {
+    res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${apiKey}`,
+        // Optional but recommended by OpenRouter for request attribution; harmless if ignored.
+        'HTTP-Referer': 'https://github.com/mspj0703-stack/echo-shift2',
+        'X-Title': 'echo-shift2 OpenRouter Supervisor',
       },
       body: JSON.stringify(body),
     });
   } catch (e) {
-    writeFallback(`OpenAI Responses API 호출 중 네트워크 오류: ${e.message}`);
+    writeFallback(`OpenRouter API 호출 중 네트워크 오류: ${e.message}`);
     console.error(e);
     process.exit(1);
   }
 
   const raw = await res.text();
   if (!res.ok) {
-    writeFallback(`OpenAI Responses API가 HTTP ${res.status}를 반환했습니다:\n\n${raw.slice(0, 2000)}`);
-    console.error(`OpenAI API error ${res.status}: ${raw.slice(0, 2000)}`);
+    writeFallback(`OpenRouter API가 HTTP ${res.status}를 반환했습니다:\n\n${raw.slice(0, 2000)}`);
+    console.error(`OpenRouter API error ${res.status}: ${raw.slice(0, 2000)}`);
     process.exit(1);
   }
 
@@ -116,13 +120,19 @@ async function main() {
   try {
     data = JSON.parse(raw);
   } catch (e) {
-    writeFallback(`OpenAI 응답 JSON 파싱 실패: ${e.message}`);
+    writeFallback(`OpenRouter 응답 JSON 파싱 실패: ${e.message}\n\n원본 응답(앞부분):\n${raw.slice(0, 2000)}`);
+    process.exit(1);
+  }
+
+  if (data.error) {
+    writeFallback(`OpenRouter API가 오류를 반환했습니다: ${JSON.stringify(data.error).slice(0, 2000)}`);
+    console.error('OpenRouter API returned an error:', data.error);
     process.exit(1);
   }
 
   const text = extractText(data);
   if (!text || !text.trim()) {
-    writeFallback('OpenAI 응답에서 텍스트를 추출하지 못했습니다.');
+    writeFallback(`OpenRouter 응답에서 텍스트를 추출하지 못했습니다.\n\n원본 응답(앞부분):\n${raw.slice(0, 2000)}`);
     process.exit(1);
   }
 

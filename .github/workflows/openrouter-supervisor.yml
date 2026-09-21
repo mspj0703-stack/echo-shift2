@@ -1,4 +1,4 @@
-name: GPT Supervisor (v0.1)
+name: OpenRouter Supervisor (v0.2)
 
 "on":
   workflow_dispatch: {}
@@ -42,17 +42,17 @@ jobs:
           done
           exit $status
 
-      - name: Ask GPT supervisor for next Claude task
+      - name: Ask OpenRouter supervisor for next Claude task
         if: always()
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: node .github/scripts/gpt_supervisor.js
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: node .github/scripts/openrouter_supervisor.js
 
       - name: Upload supervisor artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: gpt-supervisor-v0.1-${{ github.run_number }}
+          name: openrouter-supervisor-v0.2-${{ github.run_number }}
           path: |
             NEXT_TASK.md
             build.log
