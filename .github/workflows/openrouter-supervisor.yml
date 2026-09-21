@@ -1,7 +1,12 @@
-name: OpenRouter Supervisor (v0.3)
+name: OpenRouter Supervisor (v0.4)
 
 "on":
   workflow_dispatch: {}
+  # NOTE: GitHub only fires `schedule` from the workflow file as it exists on
+  # the repository's default branch, so this won't trigger until this file is
+  # merged there — workflow_dispatch works on any branch in the meantime.
+  schedule:
+    - cron: '0 * * * *' # every hour
 
 permissions:
   contents: read
@@ -17,19 +22,72 @@ jobs:
           # messages (default checkout is a shallow, single-commit clone).
           fetch-depth: 0
 
+      # Earliest possible step after checkout: decide whether this run should
+      # actually do anything, before any npm/build/test/OpenRouter cost.
+      #
+      # - AUTOMATION_MODE is a repo Variable (Settings > Secrets and variables
+      #   > Actions > Variables). Only the exact value "AUTO" counts as AUTO;
+      #   anything else (unset, empty, "auto", a typo) is MANUAL. Default is
+      #   always MANUAL.
+      # - A manual workflow_dispatch run always executes, regardless of mode.
+      # - A scheduled run only executes when the repo mode is AUTO; otherwise
+      #   it skips the rest of the job and still finishes as a success.
+      - name: Decide whether to run the supervisor
+        id: decide
+        env:
+          AUTOMATION_MODE_RAW: ${{ vars.AUTOMATION_MODE }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ "$EVENT_NAME" = "schedule" ]; then
+            TRIGGER=scheduled
+          else
+            TRIGGER=manual
+          fi
+
+          if [ "$AUTOMATION_MODE_RAW" = "AUTO" ]; then
+            MODE=AUTO
+          else
+            MODE=MANUAL
+          fi
+
+          if [ "$TRIGGER" = "manual" ]; then
+            EXEC=RUN
+          elif [ "$MODE" = "AUTO" ]; then
+            EXEC=RUN
+          else
+            EXEC=SKIP
+          fi
+
+          echo "Trigger: $TRIGGER"
+          echo "Automation mode: $MODE"
+          echo "Supervisor execution: $EXEC"
+          if [ "$EXEC" = "SKIP" ]; then
+            echo "Automation skipped: MANUAL mode"
+          fi
+
+          {
+            echo "trigger=$TRIGGER"
+            echo "mode=$MODE"
+            echo "execution=$EXEC"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Setup Node.js
+        if: steps.decide.outputs.execution == 'RUN'
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
       - name: Install dependencies
+        if: steps.decide.outputs.execution == 'RUN'
         run: npm ci
 
       - name: Build
+        if: steps.decide.outputs.execution == 'RUN'
         run: npm run build 2>&1 | tee build.log
 
       - name: Run unit tests (tests/unit/*.js)
+        if: steps.decide.outputs.execution == 'RUN'
         run: |
           mkdir -p unit-test-logs
           LOG=unit-test-logs/unit-tests.log
@@ -47,16 +105,16 @@ jobs:
           exit $status
 
       - name: Ask OpenRouter supervisor for next Claude task
-        if: always()
+        if: always() && steps.decide.outputs.execution == 'RUN'
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: node .github/scripts/openrouter_supervisor.js
 
       - name: Upload supervisor artifacts
-        if: always()
+        if: always() && steps.decide.outputs.execution == 'RUN'
         uses: actions/upload-artifact@v4
         with:
-          name: openrouter-supervisor-v0.3-${{ github.run_number }}
+          name: openrouter-supervisor-v0.4-${{ github.run_number }}
           path: |
             NEXT_TASK.md
             build.log
