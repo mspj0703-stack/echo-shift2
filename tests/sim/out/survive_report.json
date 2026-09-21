@@ -1,0 +1,84 @@
+{
+ "games": 300,
+ "reachBoss": 0,
+ "dead": 176,
+ "nan": 0,
+ "bad": [],
+ "peak": {
+  "total": 18,
+  "warden": 3,
+  "phase": 5,
+  "shooter": 8
+ },
+ "xpMismatch": 0,
+ "levelups": 1645,
+ "spawn": [
+  {
+   "chaser": 5914,
+   "shooter": 2302
+  },
+  {
+   "chaser": 4198,
+   "shooter": 1681,
+   "phase": 853
+  },
+  {
+   "chaser": 1087,
+   "shooter": 675,
+   "phase": 545,
+   "warden": 273
+  },
+  {}
+ ],
+ "killBy": {
+  "chaser": {
+   "player": 8003,
+   "echo": 2505
+  },
+  "shooter": {
+   "player": 1005,
+   "echo": 2328
+  },
+  "phase": {
+   "player": 321,
+   "echo": 881
+  },
+  "warden": {
+   "player": 6,
+   "echo": 59
+  }
+ },
+ "phaseSwitch": 3403,
+ "phaseTrackTicks": {
+  "echo": 355364,
+  "player": 55436
+ },
+ "shieldBlocked": {
+  "player": 906,
+  "echo": 245
+ },
+ "wardenHit": {
+  "player": 93,
+  "echo": 328
+ },
+ "phaseCollisions": 1215,
+ "byPolicy": {},
+ "elite": {
+  "spawned": {
+   "lock": 322,
+   "relay": 301
+  },
+  "kills": {
+   "chaser": 358,
+   "shooter": 103
+  },
+  "syncBreaks": 114,
+  "relayBursts": 82,
+  "relayKills": 42,
+  "xpBonus": 5125,
+  "capBad": 0,
+  "stateBad": 0,
+  "leftover": 0,
+  "gamesWithElite": 205
+ }
+}

@@ -1,0 +1,15 @@
+PASS 타이틀 상태로 시작
+PASS 시작
+PASS 600틱 + 렌더 예외 없음 
+PASS 239틱: ECHO 없음
+PASS 240틱: ECHO 1개, 클립 240틱
+PASS 8초: ECHO 2개
+PASS 12초: ECHO 3개
+PASS ECHO가 녹화된 위치를 틱 단위로 그대로 재생 (불일치 0)
+PASS ECHO가 같은 횟수/틱에 공격 재생 (13/13)
+PASS 생성 후 719틱: 존재
+PASS 720틱(12초): 소멸
+PASS HP 0 → 사망
+PASS 300초 경과 → 승리가 아니라 보스 등장 연출
+PASS 60초 동안 ECHO 15회 생성 (15)
+ALL PASS unit_core (14/14)

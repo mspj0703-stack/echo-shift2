@@ -1,0 +1,87 @@
+PASS 0a. SHOOTER 상한 8: 8기면 더 뽑히지 않음
+PASS 0b. SHOOTER 7기면 아직 뽑힘 (상한은 8, 완전 제거 아님)
+PASS 0c. 종류별 상한 8/3/5 유지, 전체 상한은 구간별 20/26/30 (v2.6)
+PASS 0d. ECHO가 320px 안이면 ECHO 추적 (거리 250)
+PASS 0e. ECHO가 320px 밖이면 플레이어 추적 (거리 600)
+PASS 0f. 경계(330px) 바깥은 플레이어 추적
+PASS 0g. 범위 밖→안으로 들어오면 ECHO로 전환
+PASS    (충돌 규칙: 기존 v2.2 테스트 unit_enemies에서 검증 — 자신 피해1/기절0.9초/쿨다운1.5초/ECHO 무피해)
+PASS 1a. 일반 구간 동안 스폰 진행 (적 최대 20)
+PASS 1b. 300초 도달 → 보스 등장 연출(intro)
+PASS 2a. 남은 일반 적 전부 제거 (적 목록 = 보스 1기)
+PASS 2b. 적 투사체 전부 제거
+PASS 1c. 보스전 중 일반 스폰 완전 중단 (600틱 동안 일반 적 0, 스폰 타이머 정지)
+PASS 3a. 보스 정상 생성 (HP 180)
+PASS 3b. 등장 연출 후 보스전 시작
+PASS 2c. 정확히 300초(18000틱)째에 정리+보스 생성
+PASS 3c. 등장 연출 중 보스는 피해를 받지 않음
+PASS 3d. 등장 연출 3초 (180틱)
+PASS    (연출 중 타격은 집계되지 않음)
+PASS 4a. 방패: 플레이어 피해 1 → 0.2 (HP 179.80)
+PASS 4b. 방패: ECHO 피해도 동일하게 80% 감소
+PASS 4c. 큰 피해도 80% 감소 (5 → 1)
+PASS 5. PLAYER 단독으로는 아무리 때려도 방패가 깨지지 않음 (30회, 210틱)
+PASS 6. ECHO 단독으로도 방패가 깨지지 않음
+PASS 7a. PLAYER → 60틱 뒤 ECHO → SYNC BREAK
+PASS 7b. ECHO → 60틱 뒤 PLAYER → SYNC BREAK (순서 무관)
+PASS 7c. 경계: 정확히 75틱(1.25초) 차이 → 성립
+PASS 8a. 76틱 차이 → 성립하지 않음 (시간 초과)
+PASS 7d. PLAYER 재타격으로 창이 갱신되면 그 시점부터 1.25초 (40+40틱)
+PASS 7e. 실제 플레이어 slash + ECHO 재생 공격(31틱째) → SYNC BREAK
+PASS 5b. 실제 플레이어 연속 공격만으로는 깨지지 않음 (타격 13, ECHO 생성 전)
+PASS 8b. UI: SYNC SHIELD → PLAYER ✓ / ECHO ○ → (1.25초 후) 초기화 [SYNC SHIELD,PLAYER ✓ / ECHO ○,SYNC SHIELD]
+PASS 8c. ECHO가 먼저 맞으면 PLAYER ○ / ECHO ✓
+PASS 9a. SYNC BREAK → VULNERABLE 5초(300틱) + 경직 0.6초(36틱)
+PASS 9b. 취약 중 피해 감소 없음 (1 → 1)
+PASS 9c. VULNERABLE 정확히 5.00초 (300틱, 실제 300)
+PASS 10. 취약 종료 후 방패 재생 + 보호 시간 1.5초(90틱) 시작
+PASS 11a. 보호 시간 중 PLAYER+ECHO → SYNC BREAK 발생하지 않음
+PASS 11b. 보호 89틱째까지 여전히 무효
+PASS 11c. 90틱째 보호 해제
+PASS 11d. 보호 해제 후에는 다시 SYNC BREAK 가능
+PASS 9d. 경직(0.6초) 동안 이동/패턴 정지
+PASS 9e. 36틱 후 경직 해제 (실제 0)
+PASS 12a. 패턴 순환: RADIAL PULSE → MEMORY LINE → PARADOX ZONE 반복 [pulse,line,zone,pulse,line,zone,pulse]
+PASS 12b. RADIAL PULSE 예고 0.9초(54틱) (54)
+PASS 12c. MEMORY LINE 예고 0.8초(48틱) (48)
+PASS 12d. PARADOX ZONE 예고 1초(60틱) + 유지 3초(180틱) (60/180)
+PASS 12e. 패턴 사이 간격 약 1.75초 (105,105,105,105,105,105틱), 패턴이 겹치지 않음
+PASS 12f. HP 50% 이하: 패턴 간격 105 → 89틱 (약 15% 감소) [105 → 89]
+PASS 12g. 예고 시간은 HP와 무관하게 동일 (54=54)
+PASS 13a. RADIAL PULSE: 반경 150 안에서만 피해 (불일치 0, 안쪽 샘플 46)
+PASS 13b. MEMORY LINE: 선(폭 44) 위에서만 피해 (불일치 0, 선 위 샘플 69)
+PASS 13c. PARADOX ZONE: 원 3곳 안에서만 피해 (불일치 0, 안쪽 샘플 27)
+PASS 13d. PULSE: 그려지는 원 = (중심, 반경 150)
+PASS 13e. LINE: 그려지는 띠 = (폭 44, 방향 일치)
+PASS 13f. ZONE: 그려지는 원 3개 = 판정 원 (반경 70)
+PASS 13g. ZONE: 30틱마다 판정, 피격 무적(0.9초)으로 서 있으면 약 1.5초마다 피해 (피격 틱 30,90,150)
+PASS 13h. PULSE 넉백은 중심에서 바깥쪽 (kx 520, x 582)
+PASS 13i. MEMORY LINE 목표 = 약 1.5초(90틱) 전 플레이어 위치 (161,200)
+PASS 13j. ECHO는 보스 패턴 영향 없음 (플레이어만 판정)
+PASS 14a. 보스 패턴 진행 중 레벨업 선택창
+PASS 14b. step 400회에도 보스/패턴/타이머/이펙트 전부 정지
+PASS 14c. 선택 후 보스 진행 재개
+PASS 15a. 플레이어 slash → 소스 PLAYER ({"p":1,"e":0})
+PASS 15b. ECHO 재생 slash → 소스 ECHO ({"p":0,"e":1})
+PASS 15c. 플레이어 대시 → 소스 PLAYER, 1회 ({"p":1,"e":0})
+PASS 15d. ECHO 재생 대시 → 소스 ECHO, 1회 ({"p":0,"e":1})
+PASS 15e. 플레이어 대시 + ECHO 공격 → SYNC BREAK (대시도 해당 소스의 공격)
+PASS 16a. 보스 HP 0 → 사망 처리
+PASS 16b. 사망 다음 틱에 게임 종료(승리)
+PASS 16c. 종료 후 크래시 없음, 보스 처치 XP 없음
+PASS 16d. 결과 문구 (PARADOX CORE 격파)
+PASS 16e. 보스전 중 플레이어 사망 → 종료 (접촉 피해 포함)
+PASS    보스 접촉 피해 1, 이후 피격 무적 동안 추가 피해 없음
+PASS    ECHO 타격 예측: 101틱 뒤로 표시 (101)
+PASS    예측한 틱(101)에 실제 ECHO 타격 발생
+PASS    보스에 닿지 않는 ECHO 공격은 예측에서 제외
+PASS UI-1. 보스 이름/HP 바 수치/SYNC SHIELD 표시
+PASS UI-2. ECHO 타격 예정 시간 표시 ("ECHO 타격까지 x.x초")
+PASS UI-4. PLAYER ✓ / ECHO ○ 표시
+PASS UI-5. PLAYER ○ / ECHO ✓ 표시
+PASS UI-6. SYNC BREAK 연출 문구 + VULNERABLE — X.Xs
+PASS UI-7. 방패 재생 후 안정화(보호) 표시
+PASS UI-8. 모든 보스 상태 렌더 중 예외 없음
+PASS UI-9. 등장 연출 중 PARADOX CORE 문구, 예외 없음
+PASS 14d. 실제 rAF 루프 400ms 동안에도 보스 정지
+ALL PASS unit_boss (86/86)

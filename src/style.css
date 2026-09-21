@@ -1,0 +1,52 @@
+  :root{
+    color-scheme:dark;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+    --bg:#05070c;
+    --panel:rgba(9,13,20,.92);
+    --text:#e7edf5;
+    --muted:#8ea0b6;
+    --accent:#5cc8ff;
+    --echo:#a487ff;
+    --danger:#ff6b6b;
+    --warn:#ffb547;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif;display:flex;align-items:center;justify-content:center;overflow:hidden;-webkit-user-select:none;user-select:none}
+  #stage{position:relative;width:min(100vw,calc((100vh - 8px)*1.6));aspect-ratio:16/10;max-height:100vh}
+  @supports (height:100dvh){#stage{width:min(100vw,calc((100dvh - 8px)*1.6))}}
+  canvas{display:block;width:100%;height:100%;background:#070a10;border:1px solid #1b2636;border-radius:6px;cursor:crosshair;touch-action:none}
+  .ov{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:16px;background:rgba(5,7,12,.82);border-radius:6px}
+  .ov h1{margin:0;font-size:clamp(22px,4.4vw,40px);letter-spacing:.04em}
+  .ov h1 small{font-size:.45em;color:var(--echo);letter-spacing:.1em;margin-left:6px}
+  .ov p{margin:0;color:var(--text);font-size:clamp(13px,2vw,17px);line-height:1.6}
+  .ov .keys{color:var(--muted);font-size:clamp(12px,1.7vw,14px);line-height:1.8}
+  .ov .keys b{font-family:var(--mono);color:var(--accent);font-weight:600}
+  .ov .stat{font-family:var(--mono);font-size:clamp(13px,2vw,17px);color:var(--text);line-height:1.8}
+  .ov .stat em{color:var(--echo);font-style:normal}
+  .ov button{font:inherit;color:var(--text);background:#0f2f45;border:1px solid var(--accent);border-radius:10px;padding:10px 22px;cursor:pointer;margin-top:4px;touch-action:manipulation}
+  .ov button:hover{background:#15415f}
+  .ov button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .choices{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;width:100%}
+  .card{position:relative;width:clamp(150px,27%,230px);text-align:left;display:flex;flex-direction:column;gap:6px;background:rgba(15,47,69,.85)!important;border:1px solid var(--accent)!important;border-radius:12px!important;padding:14px 12px 12px!important;margin:0!important}
+  .card:hover,.card:focus-visible{background:rgba(21,65,95,.95)!important;outline:2px solid #7cf5b0}
+  .card b{font-size:clamp(13px,2vw,17px);letter-spacing:.03em}
+  .card small{color:var(--muted);font-size:12px}
+  .card .d{font-size:clamp(11px,1.6vw,14px);line-height:1.5;color:var(--text)}
+  .card .k{position:absolute;right:10px;top:8px;font-family:var(--mono);color:#7cf5b0;font-size:13px}
+  @media(max-width:640px){.choices{flex-direction:column;align-items:center}.card{width:min(92%,340px)}}
+  .hidden{display:none!important}
+  #touch{position:absolute;inset:0;pointer-events:none}
+  #joyZone{position:absolute;left:0;top:0;width:52%;height:100%;pointer-events:auto;touch-action:none}
+  #joyBase,#joyKnob{position:absolute;border-radius:50%;pointer-events:none;display:none}
+  #joyBase{width:96px;height:96px;border:2px solid rgba(92,200,255,.45);margin:-48px 0 0 -48px}
+  #joyKnob{width:44px;height:44px;background:rgba(92,200,255,.4);margin:-22px 0 0 -22px}
+  .tbtn{position:absolute;pointer-events:auto;touch-action:none;border-radius:50%;border:2px solid rgba(255,255,255,.35);background:rgba(20,30,44,.55);color:var(--text);font:inherit;font-weight:700;display:flex;align-items:center;justify-content:center}
+  #tAtk{right:4%;bottom:8%;width:clamp(64px,15vw,96px);height:clamp(64px,15vw,96px);border-color:rgba(92,200,255,.8)}
+  #tDash{right:20%;bottom:6%;width:clamp(52px,11vw,74px);height:clamp(52px,11vw,74px);border-color:rgba(164,135,255,.8)}
+  .tbtn:active{background:rgba(92,200,255,.35)}
+  #rot{position:absolute;left:0;right:0;top:0;text-align:center;font-size:12px;color:var(--warn);padding:4px;pointer-events:none}
+#endStat .ups{display:inline-block;margin-top:6px;font-size:12px;color:#8ea0b6;line-height:1.5}

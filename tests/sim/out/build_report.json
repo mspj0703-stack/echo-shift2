@@ -1,0 +1,257 @@
+{
+ "runs": 200,
+ "elapsed": 226.454,
+ "results": {
+  "ATTACK": {
+   "runs": 200,
+   "survive": {
+    "survival": 0,
+    "time": 57.341666666666654,
+    "kills": 33.755,
+    "dps": 1.1938005991502245,
+    "directDps": 0.6982770044577478,
+    "player": 0.7502142168927837,
+    "echo": 0.2497857831072162,
+    "dashTrail": 0.2786770911112561,
+    "synergy": 0.00019435102360217574,
+    "level": 5.825,
+    "resPerMin": 0.019643682953640877,
+    "markPerMin": 0.010184013801035077,
+    "trailHits": 1.095,
+    "fbSaved": 0.1097166666666665,
+    "echoKillShare": 0.2208342621607082
+   },
+   "boss": {
+    "clear": 1,
+    "time": 24.15975000000001,
+    "taken": 0.815,
+    "breaks": 3.455,
+    "player": 0.40108805555555527,
+    "echo": 0.5989119444444447,
+    "dashTrail": 0.07059694444444437,
+    "synergy": 0.03507722222222223,
+    "dps": 7.546844927690167,
+    "res": 3.78,
+    "mark": 1.865,
+    "wins": 200
+   }
+  },
+  "ECHO": {
+   "runs": 200,
+   "survive": {
+    "survival": 0,
+    "time": 56.33191666666665,
+    "kills": 32.92,
+    "dps": 1.1849778090430698,
+    "directDps": 0.6356308842683376,
+    "player": 0.7180241252418882,
+    "echo": 0.28197587475811203,
+    "dashTrail": 0.3237288318755385,
+    "synergy": 0.0006280707498883566,
+    "level": 5.8,
+    "resPerMin": 0.03950694711676232,
+    "markPerMin": 0.03405405405405405,
+    "trailHits": 2.225,
+    "fbSaved": 0.11383333333333313,
+    "echoKillShare": 0.24542812886987936
+   },
+   "boss": {
+    "clear": 0.995,
+    "time": 24.74304857621441,
+    "taken": 1.03,
+    "breaks": 3.6,
+    "player": 0.35149441358024675,
+    "echo": 0.6485055864197533,
+    "dashTrail": 0.07871138888888889,
+    "synergy": 0.105200462962963,
+    "dps": 7.338176874622804,
+    "res": 15.045,
+    "mark": 2.68,
+    "wins": 199
+   }
+  },
+  "DASH": {
+   "runs": 200,
+   "survive": {
+    "survival": 0,
+    "time": 57.337416666666655,
+    "kills": 34.01,
+    "dps": 1.199502422595978,
+    "directDps": 0.597698821792009,
+    "player": 0.7237845638743117,
+    "echo": 0.2762154361256881,
+    "dashTrail": 0.39997503964035386,
+    "synergy": 0.000618715024487932,
+    "level": 5.84,
+    "resPerMin": 0.019459459459459462,
+    "markPerMin": 0.04442687485527142,
+    "trailHits": 6.385,
+    "fbSaved": 0.10034166666666651,
+    "echoKillShare": 0.25712532061689025
+   },
+   "boss": {
+    "clear": 1,
+    "time": 27.204916666666662,
+    "taken": 0.75,
+    "breaks": 3.925,
+    "player": 0.3937661111111111,
+    "echo": 0.6062338888888888,
+    "dashTrail": 0.16116111111111095,
+    "synergy": 0.06807777777777779,
+    "dps": 6.679293234087038,
+    "res": 3.065,
+    "mark": 5.175,
+    "wins": 200
+   }
+  },
+  "HYBRID": {
+   "runs": 200,
+   "survive": {
+    "survival": 0,
+    "time": 56.102250000000005,
+    "kills": 32.7,
+    "dps": 1.1756771751412614,
+    "directDps": 0.6350534120661645,
+    "player": 0.729473282841374,
+    "echo": 0.2705267171586263,
+    "dashTrail": 0.32722869197983634,
+    "synergy": 0.001814938123438028,
+    "level": 5.76,
+    "resPerMin": 0.08271324412169484,
+    "markPerMin": 0.06817475009255833,
+    "trailHits": 3.195,
+    "fbSaved": 0.3780999999999992,
+    "echoKillShare": 0.24127854845663477
+   },
+   "boss": {
+    "clear": 1,
+    "time": 25.128749999999982,
+    "taken": 1.205,
+    "breaks": 3.615,
+    "player": 0.39581555555555537,
+    "echo": 0.6041844444444444,
+    "dashTrail": 0.08973750000000001,
+    "synergy": 0.19517638888888875,
+    "dps": 7.235439348228799,
+    "res": 18.085,
+    "mark": 7.34,
+    "wins": 200
+   }
+  },
+  "RANDOM": {
+   "runs": 200,
+   "survive": {
+    "survival": 0,
+    "time": 56.830583333333315,
+    "kills": 33.455,
+    "dps": 1.1884225244666862,
+    "directDps": 0.6463799638091472,
+    "player": 0.736991507959478,
+    "echo": 0.2630084920405224,
+    "dashTrail": 0.3343042294770058,
+    "synergy": 0.0006506585831767603,
+    "level": 5.815,
+    "resPerMin": 0.019459459459459462,
+    "markPerMin": 0.03893078122826159,
+    "trailHits": 3.165,
+    "fbSaved": 0.23439999999999955,
+    "echoKillShare": 0.2369440573658973
+   },
+   "boss": {
+    "clear": 1,
+    "time": 25.055333333333333,
+    "taken": 0.775,
+    "breaks": 3.615,
+    "player": 0.3821988888888891,
+    "echo": 0.6178011111111111,
+    "dashTrail": 0.10562749999999993,
+    "synergy": 0.08790944444444446,
+    "dps": 7.265143467344285,
+    "res": 8.84,
+    "mark": 4.56,
+    "wins": 200
+   }
+  }
+ },
+ "dominance": {
+  "ATTACK": {
+   "gains": {
+    "dps": 0.005967261624417075,
+    "kills": 0.016410719662752316,
+    "survival": 0,
+    "bossTime": 0.0596479134897443
+   },
+   "hits": 0,
+   "dominant": false
+  },
+  "ECHO": {
+   "gains": {
+    "dps": -0.003935793695494572,
+    "kills": -0.01697108445727369,
+    "survival": 0,
+    "bossTime": 0.029600860266059126
+   },
+   "hits": 0,
+   "dominant": false
+  },
+  "DASH": {
+   "gains": {
+    "dps": 0.012393370354638611,
+    "kills": 0.0267169811320751,
+    "survival": 0,
+    "bossTime": -0.10243202485463043
+   },
+   "hits": 0,
+   "dominant": false
+  },
+  "HYBRID": {
+   "gains": {
+    "dps": -0.01432232622004237,
+    "kills": -0.02567413219446779,
+    "survival": 0,
+    "bossTime": 0.009479528331375331
+   },
+   "hits": 0,
+   "dominant": false
+  }
+ },
+ "character": [
+  {
+   "name": "ATTACK: 직접 공격(PLAYER 기본 공격) DPS 최고",
+   "pass": true,
+   "detail": "ATTACK 0.70 / ECHO 0.64 / DASH 0.60 / HYBRID 0.64"
+  },
+  {
+   "name": "ECHO: ECHO 피해 비율 최고 (일반+보스 평균)",
+   "pass": true,
+   "detail": "ATTACK 42% / ECHO 47% / DASH 44% / HYBRID 44%"
+  },
+  {
+   "name": "DASH: DASH·TRAIL 피해 비율 최고",
+   "pass": true,
+   "detail": "ATTACK 28% / ECHO 32% / DASH 40% / HYBRID 33%"
+  },
+  {
+   "name": "DASH: 생존성(평균 생존시간 또는 보스 받은 피해)이 다른 빌드 평균보다 우수",
+   "pass": true,
+   "detail": "생존시간 57.3s (타 평균 56.6s), 보스 받은 피해 0.75 (타 평균 1.02)"
+  },
+  {
+   "name": "HYBRID: RESONANCE/PHASE MARK 발동 빈도 최고 (일반, 분당)",
+   "pass": true,
+   "detail": "ATTACK 0.0 / ECHO 0.1 / DASH 0.1 / HYBRID 0.2"
+  },
+  {
+   "name": "HYBRID: 시너지 피해 비율(ECHO 활용 보상) 최고",
+   "pass": true,
+   "detail": "ATTACK 2% / ECHO 5% / DASH 3% / HYBRID 10%"
+  }
+ ],
+ "areas": {
+  "일반 전투(DPS)": "DASH",
+  "생존(60초 생존율)": "ATTACK",
+  "보스(클리어 시간)": "ATTACK"
+ },
+ "overwhelm": [],
+ "exceptions": 0
+}

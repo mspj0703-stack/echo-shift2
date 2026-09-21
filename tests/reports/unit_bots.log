@@ -1,0 +1,8 @@
+PASS A + 공용 회피 코드에 ECHO/SYNC 참조 없음 (nextEchoBossHit, echoBossHits, echoes, lastHit, syncStatus, echoHitsBoss, .clip)
+PASS A는 보스 SYNC 타이머(clock)도 사용하지 않음
+PASS A/B/C 모두 동일한 공용 회피 함수(evade) 사용
+PASS (대조) B는 nextEchoBossHit 사용
+PASS 동적: A 40판 동안 ECHO 예측 API 호출 0회 (B는 64394회로 대조)
+PASS (스파이 정상 동작: B 호출 >0)
+PASS A 접촉 피해 평균 0.05 (v2.3: 4.52 → 절반 미만)
+ALL PASS unit_bots (7/7)

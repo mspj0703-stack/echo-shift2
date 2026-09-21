@@ -1,0 +1,56 @@
+PASS LONG REACH: 스택당 +10%, 최대 4스택 (사거리 70 → 98)
+PASS    LONG REACH 0스택: 사거리 밖 (106+)
+PASS    4스택 사거리 98 → 명중 (플레이어/ECHO 공통 함수)
+PASS RAPID CUT: 최대 5스택, 효과 ×0.9 유지, 최소 0.15초 이상
+PASS    RAPID CUT 1스택 효과 그대로 (0.30 → 0.27)
+PASS 업그레이드 풀 11개 (공격3/ECHO3/대시3/HYBRID2), LONG SHIFT 제거
+PASS 선택지 3개, 중복 없음 (400회)
+PASS 최대 스택 업그레이드는 선택지에서 제외
+PASS TRAIL: 플레이어 대시 → 트레일 생성 (조각 4)
+PASS    트레일은 플레이어에게 피해 없음, 대시 후에도 유지
+PASS    같은 트레일에서 같은 적은 1회만 피해 (1스택 1.0, 이후 추가 없음)
+PASS    피해 이벤트에 source=PLAYER, kind=trail, 적 id 기록
+PASS TRAIL: ECHO 대시도 트레일 생성 (src=ECHO)
+PASS    ECHO 트레일 위 적: 1 피해, source=ECHO
+PASS TRAIL: 지속시간 0.8초(≈48틱) 후 소멸 (47틱 후)
+PASS    소멸 후에는 피해 없음
+PASS TRAIL: 스택별 피해 1 / 1.5 / 2 (1,1.5,2)
+PASS    이미 존재하는 ECHO의 트레일에도 현재 스택 즉시 적용 (3스택 → 2.0)
+PASS TRAIL 미보유 시 트레일 없음
+PASS RESONANCE: PLAYER → ECHO 0.5초: 기본 1+1 + 추가 피해 1 발동 (총 3)
+PASS    추가 피해 이벤트(kind=resonance) 기록
+PASS RESONANCE: ECHO → PLAYER 발동
+PASS RESONANCE: PLAYER → PLAYER 미발동 (기본 피해 2만)
+PASS RESONANCE: ECHO → ECHO 미발동
+PASS RESONANCE: 정확히 0.8초(48틱) → 발동
+PASS RESONANCE: 0.8초 초과(49틱) → 미발동
+PASS RESONANCE: 스택별 추가 피해 1 / 1.5 / 2 (1,1.5,2)
+PASS RESONANCE: 적별 내부 쿨다운 0.8초 (1,1,1,2)
+PASS    쿨다운은 적별 (두 적 각각 발동)
+PASS RESONANCE 추가 피해로 처치: 처치/XP 정확히 1회
+PASS MARK: PLAYER DASH → ECHO 공격, 스택별 추가 피해 2 / 3 / 4 (2,3,4)
+PASS MARK: ECHO DASH → PLAYER 공격: 추가 피해 2 (소스=PLAYER)
+PASS MARK: 같은 소스(PLAYER→PLAYER)는 자신의 마크를 소비 못 함 (마크 유지)
+PASS    이후 반대 주체(ECHO)가 소비 → +2
+PASS    소비 후 재소비 불가
+PASS MARK: 2초(120틱) 후 만료 (119틱 → 소비 +2 / 120틱 → 소비 불가)
+PASS MARK: 일반 공격은 마크를 만들지 않음 (DASH만 부여)
+PASS FEEDBACK: ECHO 피해 시 대시 쿨 감소 스택별 0.08 / 0.12 / 0.16 (0.08,0.12,0.16)
+PASS FEEDBACK: PLAYER 피해로는 감소하지 않음
+PASS FEEDBACK: 한 프레임에 10기를 맞혀도 최대 0.32초 (0.32)
+PASS    같은 프레임 추가 타격은 더 감소하지 않음
+PASS    다음 프레임에는 다시 감소 가능
+PASS FEEDBACK: 대시 쿨다운은 0 미만으로 내려가지 않음
+PASS FEEDBACK: 시너지 추가 피해(RESONANCE)는 재발동하지 않음 (실제 타격 1회만)
+PASS FEEDBACK/시너지: PHASE COLLISION(collision)은 대상 아님
+PASS 피해 이벤트: source×kind 합계 = 총 피해 = 적 HP 감소 (6.0)
+PASS    이벤트 필드: t / src / kind / id / dmg
+PASS 보스: 시너지 추가 피해(kind=resonance)는 SYNC 적중으로 세지 않음 (breaks 0, ECHO hits 0)
+PASS    실제 ECHO 공격이 들어오면 SYNC BREAK (기존 규칙 그대로)
+PASS 보스: RESONANCE 정상 적용 + SYNC는 실제 타격 2회만 계산
+PASS    보스 HP에 추가 피해 반영 (1.20)
+PASS 보스: 창 밖이면 RESONANCE/SYNC 모두 미발동 (방패 피해 0.2)
+PASS 보스: FEEDBACK LOOP 보스 타격에도 적용
+PASS 보스: PHASE MARK 마크 소비 (취약 중 1 + 2)
+PASS 보스: 대시/트레일 피해 적용 (dash 0.20, trail 0.20)
+ALL PASS unit_synergy (55/55)

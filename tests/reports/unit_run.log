@@ -1,0 +1,42 @@
+PASS 구간 3개: 0~90 / 90~210 / 210~300초
+PASS 일반 구간 300초
+PASS 구간 전환 4초 · HP 회복 2
+PASS 보스 등장 연출 3초
+PASS 90초 → 구간 전환 시작
+PASS 전환: 적 투사체 제거
+PASS 전환: 기존 일반 적은 유지
+PASS 전환: HP +2 회복 (3 → 5)
+PASS 전환 중 런 타이머 정지 (200틱)
+PASS 전환 중 신규 스폰 없음
+PASS 전환 총 4초(240틱) 후 재개 (남은 40틱)
+PASS 재개 후 런 타이머 정상 진행
+PASS 회복은 최대 HP를 넘지 않는다 (6 → 6)
+PASS 210초 → PHASE 3 전환 + 회복
+PASS 구간 인덱스 갱신
+PASS 300초 → 보스 등장
+PASS 보스 진입 시 HP +2 회복 (3 → 5)
+PASS 일반 적/ELITE 전부 제거 (보스만)
+PASS 적 투사체 제거
+PASS ELITE 이펙트 제거
+PASS 보스 진입 상태 기록(레벨/HP)
+PASS 등장 연출 3초(180틱) (180)
+PASS 보스전에서 레벨/업그레이드 유지
+PASS 구간별 전체 적 상한 20 / 26 / 30
+PASS 종류별 상한 유지 (SHOOTER 8 · WARDEN 3 · PHASE HUNTER 5)
+PASS ELITE: 45초부터 등장, 동시 최대 1 / 2 / 3
+PASS 45초 이전에는 ELITE 없음 (300회 시도)
+PASS 45초 이후에는 ELITE 등장 (400회 중 35회)
+PASS 레벨업 정지 중 런 타이머/전환 완전 정지 (300틱)
+PASS 선택 후 정상 재개
+PASS 전환 중 레벨업이 뜨면 전환 타이머도 정지
+PASS 새 런: 런 타이머/구간/전환 초기화
+PASS 새 런: HP/레벨/업그레이드/보스/사망 기록 초기화
+PASS 새 런: 텔레메트리/적/ECHO 초기화
+PASS 사망 시 구간(PHASE 2) 기록
+PASS 사망 원인 적/피해 종류/레벨 기록 (chaser/contact)
+PASS 사망 시각/당시 적 수 기록
+PASS 결과: 생존 시간 + 구간 표시
+PASS 결과: 레벨/처치/피해 구성 표시
+PASS 결과: 업그레이드 목록 + 보스 결과 표시
+PASS RESTART 버튼 존재
+ALL PASS unit_run (41/41)
