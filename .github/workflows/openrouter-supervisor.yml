@@ -132,7 +132,7 @@ jobs:
           echo "Decision: $DECISION"
           echo "decision=$DECISION" >> "$GITHUB_OUTPUT"
           {
-            echo "summary<<'SUMMARY_EOF'"
+            echo "summary<<SUMMARY_EOF"
             echo "$SUMMARY"
             echo "SUMMARY_EOF"
           } >> "$GITHUB_OUTPUT"
@@ -208,7 +208,7 @@ jobs:
           } > "$RUNNER_TEMP/full_prompt.txt"
 
           {
-            echo "full_prompt<<'PROMPT_EOF'"
+            echo "full_prompt<<PROMPT_EOF"
             cat "$RUNNER_TEMP/full_prompt.txt"
             echo "PROMPT_EOF"
           } >> "$GITHUB_OUTPUT"
@@ -300,7 +300,7 @@ jobs:
 
           echo "had_commit=$HAD_COMMIT" >> "$GITHUB_OUTPUT"
           {
-            echo "changed_files<<'FILES_EOF'"
+            echo "changed_files<<FILES_EOF"
             echo "$CHANGED_FILES"
             echo "FILES_EOF"
           } >> "$GITHUB_OUTPUT"
