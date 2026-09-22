@@ -1,12 +1,14 @@
 #!/usr/bin/env node
-// OpenRouter Supervisor v0.3
+// OpenRouter Supervisor v0.6
 // Asks an OpenRouter free model to decide ONE next task for the Claude worker
 // (or explicitly decide there is no safe next task), grounded only in this CI
 // run's logs and a snapshot of the repo (README, package.json, test file
-// lists, recent commits). Writes NEXT_TASK.md.
+// lists, recent commits, and — as of v0.6 — ROADMAP.md, a human-approved,
+// read-only backlog). Writes NEXT_TASK.md.
 //
-// This script never modifies game code (src/js/*.js) and never commits,
-// pushes, or opens a PR — NEXT_TASK.md is uploaded as a CI artifact only.
+// This script never modifies game code (src/js/*.js) or ROADMAP.md, and
+// never commits, pushes, or opens a PR — NEXT_TASK.md is uploaded as a CI
+// artifact only.
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
@@ -23,9 +25,15 @@ const NO_ACTION_NA = '(N/A)';
 // actually points at something from the supplied input, instead of being
 // invented. This is a heuristic, not a semantic check.
 const EVIDENCE_MARKERS = [
-  'unit-tests.log', 'build.log', 'README.md', 'package.json',
+  'unit-tests.log', 'build.log', 'README.md', 'package.json', 'ROADMAP.md',
   'tests/unit', 'tests/sim', 'src/js', 'commit', '.js', 'PASS', 'FAIL',
 ];
+// Any token in "# Why" that looks like a filename (foo.js / foo.md / foo.json)
+// must resolve to a real file in the repo snapshot below — this is a harder,
+// structural check (unlike EVIDENCE_MARKERS above) meant to catch a TASK
+// citing a file that doesn't exist. It cannot catch fabricated *numbers*
+// (e.g. an invented test count) — that remains prompt-only, same as v0.3.
+const FILENAME_RE = /[\w][\w./-]*\.(?:js|md|json)\b/g;
 
 function truncateHead(str, maxChars) {
   if (str.length <= maxChars) return str;
@@ -57,6 +65,18 @@ function listJsFiles(dir) {
       .sort();
   } catch (e) {
     return null;
+  }
+}
+
+// Every .md/.json file directly under the repo root — used only to build the
+// "known real files" set for checkEvidence(), so it naturally includes
+// README.md, package.json, ROADMAP.md, and every *_REPORT.md without having
+// to hardcode or maintain that list by hand.
+function listRootDocs() {
+  try {
+    return fs.readdirSync(ROOT).filter((f) => f.endsWith('.md') || f.endsWith('.json'));
+  } catch (e) {
+    return [];
   }
 }
 
@@ -120,15 +140,29 @@ function parseSections(text) {
     return { ok: false, reason: `# Decision의 첫 줄이 "TASK" 또는 "NO_ACTION"이 아닙니다 (받은 값: "${firstLine.slice(0, 80)}")` };
   }
 
-  if (decision === 'TASK') {
-    const why = sections['# Why'].toLowerCase();
-    const hasEvidence = EVIDENCE_MARKERS.some((m) => why.includes(m.toLowerCase()));
-    if (!hasEvidence) {
-      return { ok: false, reason: 'Decision이 TASK인데 # Why에 로그/README/파일 등 구체적인 근거 인용이 없습니다.' };
-    }
+  return { ok: true, decision, sections };
+}
+
+// Only called when decision === 'TASK'. Two checks:
+//  1. (loose) "# Why" mentions at least one recognizable evidence marker.
+//  2. (strict) every filename-looking token in "# Why" resolves to a real
+//     file in this repo snapshot (knownFiles) — rejects a TASK that cites a
+//     file that doesn't exist (e.g. an invented "90_new_boss.js").
+function checkEvidence(whyText, knownFiles) {
+  const why = whyText.toLowerCase();
+  const hasMarker = EVIDENCE_MARKERS.some((m) => why.includes(m.toLowerCase()));
+  if (!hasMarker) {
+    return { ok: false, reason: 'Decision이 TASK인데 # Why에 로그/README/ROADMAP/파일 등 구체적인 근거 인용이 없습니다.' };
   }
 
-  return { ok: true, decision, sections };
+  const mentioned = whyText.match(FILENAME_RE) || [];
+  const known = new Set(knownFiles.map((f) => f.toLowerCase()));
+  const unknown = [...new Set(mentioned)].filter((m) => !known.has(m.split('/').pop().toLowerCase()));
+  if (unknown.length) {
+    return { ok: false, reason: `# Why가 저장소에 존재하지 않는 파일을 근거로 인용했습니다: ${unknown.join(', ')}` };
+  }
+
+  return { ok: true };
 }
 
 // TASK/NO_ACTION 판정과 무관하게, NO_ACTION일 때 세 섹션의 텍스트를 고정 문구로
@@ -149,15 +183,28 @@ function render(sections) {
 function buildPrompts(ctx) {
   const systemPrompt = [
     '당신은 ECHO//SHIFT v2.6.1 (단일 파일 브라우저 게임, dist/echo_shift_2_6_1.html, src/js/*.js를 build.js로 이어붙여 생성) 저장소를 감독하는 감독관입니다.',
-    '역할: 아래에 주어지는 자료(이번 CI 실행의 빌드/유닛테스트 로그, README.md, package.json, 테스트 파일 목록, 최근 커밋 메시지)만 근거로, Claude 작업자에게 넘길 "다음 작업"을 결정합니다.',
+    '역할: 아래에 주어지는 자료(이번 CI 실행의 빌드/유닛테스트 로그, README.md, package.json, ROADMAP.md, 테스트 파일 목록, 최근 커밋 메시지)만 근거로, Claude 작업자에게 넘길 "다음 작업"을 결정합니다.',
     '당신에게 주어지는 정보는 이 자료뿐입니다. 이 자료에 없는 것은 모른다고 간주하세요.',
     '',
     '사실 검증 규칙 (반드시 지킬 것):',
-    '- 입력 자료(로그/README/package.json/파일 목록/커밋 메시지)에서 직접 확인되지 않은 숫자·기능·테스트 결과를 사실처럼 말하지 마세요. 예를 들어 로그에 없는 총 테스트 개수(예: "269/269")를 임의로 만들어내지 마세요.',
-    '- 입력 자료에 등장하지 않는 함수, 이벤트, 시스템, 파일이 존재한다고 가정하지 마세요.',
+    '- 입력 자료(로그/README/package.json/ROADMAP.md/파일 목록/커밋 메시지)에서 직접 확인되지 않은 숫자·기능·테스트 결과를 사실처럼 말하지 마세요. 예를 들어 로그에 없는 총 테스트 개수(예: "269/269")를 임의로 만들어내지 마세요.',
+    '- 입력 자료에 등장하지 않는 함수, 이벤트, 시스템, 파일이 존재한다고 가정하지 마세요. "# Why"에서 파일을 언급할 때는 반드시 아래에 실제로 주어진 파일(README.md/package.json/ROADMAP.md/그 외 *.md 리포트/테스트 파일 목록/src 관련 언급)만 가리키세요 — 존재하지 않는 파일명을 지어내면 검증에서 거부됩니다.',
     '- 새로운 테스트나 기능을 제안하려면, 그 필요성을 입력 자료 안에서 구체적으로 확인할 수 있어야 합니다. 확인할 수 없으면 제안하지 마세요.',
     '- "테스트가 모두 통과했으니 테스트를 더 만들자"처럼 근거 없이 일을 만들어내는 제안은 금지합니다.',
-    '- 입력 자료에 문제가 없고 다음 개발 목표를 판단할 근거가 부족하면, 작업을 억지로 만들어내지 말고 NO_ACTION을 선택하세요.',
+    '- ROADMAP.md의 항목이 아직 구체적인 완료 조건으로 좁혀지지 않은 큰 방향성 문장뿐이라면(예: "더 재미있게 만들기" 같은 모호한 서술), 그 문장만으로 TASK를 억지로 만들지 마세요. 그런 경우는 "지금은 작은 단위로 쪼갤 근거가 부족하다"고 보고 NO_ACTION을 선택하세요.',
+    '- 입력 자료에 문제가 없고 ROADMAP.md에도 지금 진행할 근거가 있는 항목이 없으면, 작업을 억지로 만들어내지 말고 NO_ACTION을 선택하세요.',
+    '',
+    'Decision = TASK를 선택할 수 있는 두 가지 경우 (반드시 둘 중 하나에 해당해야 함):',
+    '  A. build.log 또는 unit-tests.log에서 확인되는 명확한 문제(빌드 실패, 유닛 테스트 FAIL 등)가 있다.',
+    '  B. ROADMAP.md에 아직 완료되지 않은(`[ ]` TODO 또는 `[~]` IN_PROGRESS) 항목이 있고, 현재 repo 상태(로그/README/파일 목록/커밋)에서 그 항목을 지금 진행할 구체적인 근거가 있다.',
+    'Decision = NO_ACTION: A도 B도 해당하지 않을 때 — 즉 오류도 없고, ROADMAP.md에서 지금 안전하게 진행할 수 있는 항목도 없을 때.',
+    '',
+    'ROADMAP.md를 근거로 TASK를 고를 때 지킬 규칙:',
+    '- ROADMAP.md에 여러 TODO 항목이 있으면, 문서에 적힌 순서를 기본 우선순위로 삼으세요(위에서부터). 다만 build/test 실패(A 조건)가 있으면 그것을 ROADMAP 순서보다 먼저 고려하세요.',
+    '- 한 번에 ROADMAP의 항목 하나만 선택하세요. 서로 독립적인 여러 항목을 하나의 TASK로 묶지 마세요.',
+    '- ROADMAP 항목이 나타내는 방향을 구현 가능한 작은 단위로 쪼개는 것은 괜찮습니다. 다만 그 과정에서 ROADMAP에 없는 새로운 게임 시스템(새 적 종류, 새 스킬, 새 수치 체계 등)을 독단적으로 발명하지 마세요.',
+    '- 그 항목을 진행하려면 사람의 큰 디자인 결정(예: 신규 보스/엘리트의 구체적인 패턴과 수치 확정)이 먼저 필요하다고 판단되면, TASK로 만들지 말고 NO_ACTION을 선택하거나 "# Why"에 그 항목이 사람 승인 없이는 BLOCKED 성격이라고 적으세요.',
+    '- 당신은 ROADMAP.md를 읽기 전용으로만 사용합니다. ROADMAP.md의 체크박스를 바꾸라는 지시를 "# Claude Prompt"에 넣지 마세요 — 완료 체크는 사람이 처리합니다.',
     '',
     '기존 제약(유지):',
     '- 게임 로직(src/js/*.js) 수정 코드를 직접 출력하지 마세요. 당신은 다음 작업을 설명만 합니다.',
@@ -167,8 +214,8 @@ function buildPrompts(ctx) {
     '출력 형식 (반드시 지킬 것):',
     '- 오직 아래 6개 헤딩을 이 순서 그대로, 정확히 이 텍스트로, 각각 한 줄에 하나씩 사용해 응답 전체를 구성하세요. 다른 헤딩, 서문, 전체를 감싸는 코드 블록 등을 추가하지 마세요.',
     '- "# Decision" 바로 다음 줄에는 정확히 TASK 또는 NO_ACTION 이라는 단어만 적고, 그 아래에 한두 문장으로 그 판단을 요약하세요.',
-    '- Decision이 TASK이면: "# Why"에 어떤 로그/README 내용/파일/커밋에서 그 근거를 얻었는지 구체적으로 밝히세요 (예: "unit-tests.log에서 unit_run PASS 확인", "README.md의 v2.6.1 추가 사항 섹션", "tests/sim/ablation.js 파일 존재"). "# Claude Prompt"에는 작업의 범위·목표·검증 기준만 적고, 구체적인 구현 방법(수정할 함수, 코드 스니펫, 알고리즘 선택 등)을 추정해서 만들어내지 마세요 — 구현 방법은 Claude 작업자가 선택합니다.',
-    '- Decision이 NO_ACTION이면: "# Claude Prompt"에는 정확히 "(작업 없음)", "# Acceptance Criteria"에는 정확히 "(N/A)", "# Test Plan"에는 정확히 "(N/A)"라고만 적으세요. "# Why"에는 왜 지금 안전하게 제안할 작업이 없는지 적고, "# Stop Conditions"에는 다음에 다시 판단해야 할 조건(예: 새로운 로그/커밋 발생 시)을 적으세요.',
+    '- Decision이 TASK이면: "# Why"에 어떤 로그/README/ROADMAP.md 항목/파일/커밋에서 그 근거를 얻었는지 구체적으로 밝히세요 (예: "unit-tests.log에서 unit_run PASS 확인", "ROADMAP.md의 \'200~220초 구간에 몰리는 사망 원인 완화\' 항목과 DEATH_REPORT.md의 DEATH SOURCE DOMINANCE 판정", "tests/sim/ablation.js 파일 존재"). A(로그 문제) 또는 B(ROADMAP 항목) 중 어느 경우에 해당하는지 알 수 있게 쓰세요. "# Claude Prompt"에는 무엇을 달성해야 하는지와 검증 기준만 적고, 구체적인 구현 방법(수정할 함수, 코드 스니펫, 알고리즘·수치 선택 등)을 추정해서 만들어내지 마세요 — 구현 방법은 Claude 작업자가 선택합니다.',
+    '- Decision이 NO_ACTION이면: "# Claude Prompt"에는 정확히 "(작업 없음)", "# Acceptance Criteria"에는 정확히 "(N/A)", "# Test Plan"에는 정확히 "(N/A)"라고만 적으세요. "# Why"에는 왜 지금 안전하게 제안할 작업이 없는지(오류 없음 / ROADMAP에 진행 가능한 항목 없음 / ROADMAP 항목이 너무 모호함 등) 적고, "# Stop Conditions"에는 다음에 다시 판단해야 할 조건(예: 새로운 로그/커밋 발생 시, 또는 ROADMAP이 갱신되었을 때)을 적으세요.',
     '',
     HEADINGS.join('\n'),
   ].join('\n');
@@ -196,6 +243,11 @@ function buildPrompts(ctx) {
     ctx.packageJson,
     '```',
     '',
+    '### ROADMAP.md (읽기 전용 — 당신은 이 파일을 수정하지 않습니다)',
+    '```',
+    ctx.roadmap,
+    '```',
+    '',
     '### tests/unit/*.js 파일 목록',
     ctx.unitFiles ? ctx.unitFiles.map((f) => `- ${f}`).join('\n') : '(목록을 읽을 수 없음)',
     '',
@@ -205,6 +257,7 @@ function buildPrompts(ctx) {
     '### 최근 git 커밋 메시지 (최대 10개, 최신순)',
     ctx.commits ? ctx.commits.map((c) => `- ${c}`).join('\n') : '(git log를 읽을 수 없음)',
     '',
+    'ROADMAP.md를 읽을 수 없거나(파일 없음) 내용이 비어 있다면, B(ROADMAP 근거) 경우는 사용할 수 없습니다 — 그때는 A(로그상 명확한 문제)만으로 TASK 여부를 판단하고, A도 없으면 NO_ACTION을 선택하세요.',
     '위 자료만 근거로 다음 Claude 작업을 결정해 주세요. 근거가 부족하면 NO_ACTION을 선택하세요.',
   ].join('\n');
 
@@ -266,10 +319,17 @@ async function main() {
     unitLog: readTail(path.join(ROOT, 'unit-test-logs', 'unit-tests.log'), 12000),
     readme: readHeadSafe(path.join(ROOT, 'README.md'), 6000),
     packageJson: readHeadSafe(path.join(ROOT, 'package.json'), 2000),
+    roadmap: readHeadSafe(path.join(ROOT, 'ROADMAP.md'), 8000),
     unitFiles: listJsFiles(path.join(ROOT, 'tests', 'unit')),
     simFiles: listJsFiles(path.join(ROOT, 'tests', 'sim')),
     commits: getRecentCommits(10),
   };
+  // Not shown in the prompt itself (README.md's prose already names the real
+  // src/js/*.js files), but used to validate "# Why" file citations below so
+  // a fabricated source filename can't slip through just because it ends in
+  // .js.
+  const srcFiles = listJsFiles(path.join(ROOT, 'src', 'js')) || [];
+  const knownFiles = [...listRootDocs(), 'build.log', 'unit-tests.log', ...(ctx.unitFiles || []), ...(ctx.simFiles || []), ...srcFiles];
 
   const { systemPrompt, userPrompt } = buildPrompts(ctx);
   const messages = [
@@ -299,6 +359,20 @@ async function main() {
         content: `이전 응답이 형식 요구사항을 지키지 않았습니다: ${parsed.reason}\n정확히 6개 헤딩과 형식 규칙을 다시 지켜서 전체 응답을 처음부터 다시 작성하세요.`,
       });
       continue;
+    }
+
+    if (parsed.decision === 'TASK') {
+      const evidence = checkEvidence(parsed.sections['# Why'], knownFiles);
+      if (!evidence.ok) {
+        lastReason = evidence.reason;
+        console.error(`Attempt ${attempt} failed evidence check: ${evidence.reason}`);
+        messages.push({ role: 'assistant', content: result.text });
+        messages.push({
+          role: 'user',
+          content: `이전 응답이 근거 검증을 통과하지 못했습니다: ${evidence.reason}\n실제로 주어진 자료(로그/README.md/package.json/ROADMAP.md/테스트 파일 목록)에서만 근거를 인용해 전체 응답을 처음부터 다시 작성하거나, 근거가 부족하면 NO_ACTION으로 바꾸세요.`,
+        });
+        continue;
+      }
     }
 
     normalize(parsed);
